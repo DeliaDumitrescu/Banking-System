@@ -1,4 +1,4 @@
-package Entities;
+package Entities.Card;
 
 public class CreditCard extends Card {
     double creditLimit;
@@ -6,8 +6,8 @@ public class CreditCard extends Card {
     double monthSpendings; // amount spent this month, to be paid from account at the end of the month
     double accumulatedDebt;
 
-    public CreditCard(String number, int cvv, double creditLimit, double interest) {
-        super(number, cvv);
+    public CreditCard(String accountId, String number, int cvv, double creditLimit, double interest) {
+        super(accountId, number, cvv);
         this.creditLimit = creditLimit;
         this.interest = interest;
         this.monthSpendings = 0.0;

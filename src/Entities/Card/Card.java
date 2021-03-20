@@ -1,17 +1,19 @@
-package Entities;
+package Entities.Card;
 
 import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
 
-public class Card {
-    private String cardId;
-    private String number;
-    private int cvv;
-    private Date expirationDate;
+public abstract class Card {
+    protected String cardId;
+    protected String accountId;
+    protected String number;
+    protected int cvv;
+    protected Date expirationDate;
 
-    public Card(String number, int cvv) {
+    public Card(String accountId, String number, int cvv) {
         this.cardId = UUID.randomUUID().toString();
+        this.accountId = accountId;
         this.number = number;
         this.cvv = cvv;
         Date currentDate = new Date();
@@ -27,6 +29,14 @@ public class Card {
 
     public void setCardId(String cardId) {
         this.cardId = cardId;
+    }
+
+    public String getAcoountId() {
+        return accountId;
+    }
+
+    public void setAccountId(String accountId) {
+        this.accountId = accountId;
     }
 
     public String getNumber() {

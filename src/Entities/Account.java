@@ -18,7 +18,7 @@ public class Account {
         return accountId;
     }
 
-    private void setAccountId(String accountId) {
+    public void setAccountId(String accountId) {
         this.accountId = accountId;
     }
 
@@ -26,7 +26,7 @@ public class Account {
         return dateOfCreation;
     }
 
-    private void setDateOfCreation(Date dateOfCreation) {
+    public void setDateOfCreation(Date dateOfCreation) {
         this.dateOfCreation = dateOfCreation;
     }
 
@@ -34,8 +34,15 @@ public class Account {
         return balance;
     }
 
-    private void setBalance(Double balance) {
+    public void setBalance(Double balance) {
         this.balance = balance;
     }
 
+    public void retrieve(double amount) {
+        this.balance -= amount;
+    }
+
+    public void add(double amount) {
+        this.balance += amount;
+    }
 }
