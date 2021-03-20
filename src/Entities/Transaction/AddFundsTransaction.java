@@ -18,7 +18,11 @@ public class AddFundsTransaction extends Transaction {
         this.account = account;
     }
 
-    void executeTransaction() {
-        account.add(amount);
+    public void executeTransaction() {
+        account.add(amount, this);
+    }
+
+    public @Override String toString() {
+        return "Date: " + date + " Amount: " + amount + " Account where money was added: " + account;
     }
 }

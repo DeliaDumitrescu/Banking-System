@@ -28,8 +28,12 @@ public class ExchangeFundsTransaction extends Transaction {
         this.receiverAccount = receiverAccount;
     }
 
-    void executeTransaction() {
-        senderAccount.retrieve(amount);
-        receiverAccount.add(amount);
+    public void executeTransaction() {
+        senderAccount.retrieve(amount, this);
+        receiverAccount.add(amount, this);
+    }
+
+    public @Override String toString() {
+        return "Date: " + date + " Amount: " + amount + " Account was transfered from : " + senderAccount + " to: " + receiverAccount;
     }
 }

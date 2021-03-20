@@ -63,6 +63,8 @@ public abstract class Card {
         this.expirationDate = expirationDate;
     }
 
+    abstract public @Override String toString();
+
 }
 
 

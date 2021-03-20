@@ -3,7 +3,7 @@ package Entities.Transaction;
 import java.util.Date;
 
 public abstract class Transaction {
-    private Date date;
+    protected Date date;
     protected double amount;
 
     public Transaction(double amount) {
@@ -27,6 +27,7 @@ public abstract class Transaction {
         this.amount = amount;
     }
 
-    abstract void executeTransaction();
+    public abstract void executeTransaction();
 
+    abstract public @Override String toString();
 }

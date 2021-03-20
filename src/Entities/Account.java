@@ -1,5 +1,8 @@
 package Entities;
 
+import Entities.Transaction.Transaction;
+
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
 
@@ -7,11 +10,13 @@ public class Account {
     private String accountId;
     private Date dateOfCreation;
     private Double balance;
+    private ArrayList<Transaction> transactions;
 
     public Account() {
         this.accountId = UUID.randomUUID().toString();
         this.dateOfCreation = new Date();
         this.balance = 0.0;
+        this.transactions = new ArrayList<>();
     }
 
     public String getAccountId() {
@@ -38,11 +43,26 @@ public class Account {
         this.balance = balance;
     }
 
-    public void retrieve(double amount) {
-        this.balance -= amount;
+    public ArrayList<Transaction> getTransactions() {
+        return this.transactions;
     }
 
-    public void add(double amount) {
+    public void setTransactions(ArrayList<Transaction> transactions) {
+        this.transactions = transactions;
+    }
+
+    public void retrieve(double amount, Transaction transaction) {
+        this.balance -= amount;
+        this.transactions.add(transaction);
+    }
+
+    public void add(double amount, Transaction transaction) {
         this.balance += amount;
+        this.transactions.add(transaction);
+    }
+
+    public @Override String toString() {
+        // TO DO: add transactions
+        return "Account Id: " + accountId + "\nDate of creation: " + dateOfCreation + "\nBalance: " + balance;
     }
 }

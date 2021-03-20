@@ -1,5 +1,7 @@
 package Entities.Card;
 
+import java.util.Date;
+
 public class CreditCard extends Card {
     double creditLimit;
     double interest;
@@ -46,4 +48,8 @@ public class CreditCard extends Card {
         this.accumulatedDebt = accumulatedDebt;
     }
 
+    public @Override String toString() {
+        return "Card Id: " + cardId + "\nAccount Id: " + accountId + "\nNumber: " + number + "\nCvv: " + cvv + "\nExpiration Date: " + expirationDate
+                + "\nCredit limit: " + creditLimit + "\nInterest: " + interest + "\nMonth Spendings: " + monthSpendings + "\nAccumulated Debt: " + accumulatedDebt;
+    }
 }

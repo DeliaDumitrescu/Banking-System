@@ -19,8 +19,11 @@ public class RetrieveFundsTransaction extends Transaction {
         this.account = account;
     }
 
-    void executeTransaction() {
-        account.retrieve(amount);
+    public void executeTransaction() {
+        account.retrieve(amount, this);
     }
 
+    public @Override String toString() {
+        return "Date: " + date + " Amount: " + amount + " Account from which money was retrieved: " + account;
+    }
 }
