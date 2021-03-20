@@ -1,4 +1,4 @@
-package Entities;
+package Entities.Account;
 
 import Entities.Transaction.Transaction;
 
@@ -63,6 +63,11 @@ public class Account {
 
     public @Override String toString() {
         // TO DO: add transactions
-        return "Account Id: " + accountId + "\nDate of creation: " + dateOfCreation + "\nBalance: " + balance;
+        String transactionsOutput = "---------\n";
+
+        for(Transaction transaction: transactions) {
+            transactionsOutput = transactionsOutput + transaction + "\n---------\n";
+        }
+        return "Account Id: " + accountId + "\nDate of creation: " + dateOfCreation + "\nBalance: " + balance + "\nTransactions:\n" + transactionsOutput;
     }
 }

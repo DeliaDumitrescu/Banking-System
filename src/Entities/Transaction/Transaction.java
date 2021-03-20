@@ -7,7 +7,7 @@ public abstract class Transaction {
     protected double amount;
 
     public Transaction(double amount) {
-        Date currentDate = new Date();
+        Date date = new Date();
         this.amount = amount;
     }
 

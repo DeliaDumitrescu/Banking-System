@@ -1,6 +1,6 @@
 package Entities.Transaction;
 
-import Entities.Account;
+import Entities.Account.Account;
 
 public class ExchangeFundsTransaction extends Transaction {
 
@@ -34,6 +34,7 @@ public class ExchangeFundsTransaction extends Transaction {
     }
 
     public @Override String toString() {
-        return "Date: " + date + " Amount: " + amount + " Account was transfered from : " + senderAccount + " to: " + receiverAccount;
+//        return "Date: " + date + "\nAmount: " + amount + "\nAccount was transfered from : " + senderAccount + " to: " + receiverAccount;
+        return "";
     }
 }

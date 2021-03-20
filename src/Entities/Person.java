@@ -1,11 +1,10 @@
 package Entities;
 
+import Entities.Account.Account;
 import Entities.Card.Card;
-import Entities.Transaction.Transaction;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Locale;
 import java.util.UUID;
 
 public class Person {

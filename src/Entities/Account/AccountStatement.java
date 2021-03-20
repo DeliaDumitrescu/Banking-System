@@ -1,4 +1,6 @@
-package Entities;
+package Entities.Account;
+
+import Entities.Account.Account;
 
 import java.util.Date;
 
