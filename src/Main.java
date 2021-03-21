@@ -14,8 +14,8 @@ public class Main {
 //        c.showClientAccounts();
         c.addMoneyToAccount();
         c.retrieveMoneyFromAccount();
-        c.getAccountStatement();
-
+//        c.getAccountStatement();
+        c.getAllTransactions();
 
     }
 }

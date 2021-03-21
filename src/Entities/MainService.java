@@ -13,6 +13,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 
 public class MainService {
@@ -187,6 +189,13 @@ public class MainService {
         }
     }
 
-        //option 9: Get account statement
+    //option 10: Get transactions in cronological order
+    public void getAllTransactions() {
+        System.out.println("TRANSACTIONS\n");
+        SortedSet<Date> dates = new TreeSet<>(transactions.keySet());
+        for (Date date : dates) {
+            System.out.println(transactions.get(date));
+        }
+    }
 
 }
