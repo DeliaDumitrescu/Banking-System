@@ -53,21 +53,15 @@ public class Account {
 
     public void retrieve(double amount, Transaction transaction) {
         this.balance -= amount;
-        this.transactions.add(transaction);
+        transactions.add(transaction);
     }
 
     public void add(double amount, Transaction transaction) {
         this.balance += amount;
-        this.transactions.add(transaction);
+        transactions.add(transaction);
     }
 
     public @Override String toString() {
-        // TO DO: add transactions
-        String transactionsOutput = "---------\n";
-
-        for(Transaction transaction: transactions) {
-            transactionsOutput = transactionsOutput + transaction + "\n---------\n";
-        }
-        return "Account Id: " + accountId + "\nDate of creation: " + dateOfCreation + "\nBalance: " + balance + "\nTransactions:\n" + transactionsOutput;
+        return "Account Id: " + accountId + "\nDate of creation: " + dateOfCreation + "\nBalance: " + balance;
     }
 }

@@ -34,7 +34,6 @@ public class ExchangeFundsTransaction extends Transaction {
     }
 
     public @Override String toString() {
-//        return "Date: " + date + "\nAmount: " + amount + "\nAccount was transfered from : " + senderAccount + " to: " + receiverAccount;
-        return "";
+        return "Date: " + date + "\nExchanged amount: " + amount + "\n From account with id: " + senderAccount.getAccountId() + " to account with id: " + receiverAccount.getAccountId();
     }
 }

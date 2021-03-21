@@ -24,7 +24,6 @@ public class RetrieveFundsTransaction extends Transaction {
     }
 
     public @Override String toString() {
-        return "";
-//        return "Date: " + date + "\nAmount: " + amount + "\nAccount from which money was retrieved: " + account;
+        return "Date: " + date + "\nRetrieved amount: " + amount + "\nFrom account with id: " + account.getAccountId();
     }
 }

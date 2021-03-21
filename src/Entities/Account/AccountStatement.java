@@ -1,7 +1,9 @@
 package Entities.Account;
 
 import Entities.Account.Account;
+import Entities.Transaction.Transaction;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public class AccountStatement {
@@ -30,6 +32,12 @@ public class AccountStatement {
     }
 
     public @Override String toString() {
-        return "Date: " + date + " Account: " + account;
+        String output = "";
+        ArrayList<Transaction> transactions = account.getTransactions();
+        for(Transaction transaction: transactions) {
+            output = output + transaction + "\n\n";
+        }
+
+        return "Date: " + date + "\nAccount info:\n " + account + "\nTransactions:\n " + output;
     }
 }

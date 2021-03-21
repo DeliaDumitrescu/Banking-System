@@ -8,6 +8,7 @@ public abstract class Transaction {
 
     public Transaction(double amount) {
         Date date = new Date();
+        this.date = date;
         this.amount = amount;
     }
 
