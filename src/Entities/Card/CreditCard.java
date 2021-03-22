@@ -5,14 +5,12 @@ import java.util.Date;
 public class CreditCard extends Card {
     double creditLimit;
     double interest;
-    double monthSpendings; // amount spent this month, to be paid from account at the end of the month
     double accumulatedDebt;
 
     public CreditCard(String accountId, String number, int cvv, double creditLimit, double interest) {
         super(accountId, number, cvv);
         this.creditLimit = creditLimit;
         this.interest = interest;
-        this.monthSpendings = 0.0;
         this.accumulatedDebt = 0.0;
     }
 
@@ -22,10 +20,6 @@ public class CreditCard extends Card {
 
     public double getInterest() {
         return interest;
-    }
-
-    public double getMonthSpendings() {
-        return monthSpendings;
     }
     
     public double getaccumulatedDebt() {
@@ -39,10 +33,7 @@ public class CreditCard extends Card {
     public void setInterest(double interest) {
         this.interest = interest;
     }
-    
-    public void setMonthSpendings(double monthSpendings) {
-        this.monthSpendings = monthSpendings;
-    }
+
     
     public void setaccumulatedDebt(double accumulatedDebt) {
         this.accumulatedDebt = accumulatedDebt;
@@ -50,6 +41,6 @@ public class CreditCard extends Card {
 
     public @Override String toString() {
         return "Card Id: " + cardId + "\nAccount Id: " + accountId + "\nNumber: " + number + "\nCvv: " + cvv + "\nExpiration Date: " + expirationDate
-                + "\nCredit limit: " + creditLimit + "\nInterest: " + interest + "\nMonth Spendings: " + monthSpendings + "\nAccumulated Debt: " + accumulatedDebt;
+                + "\nCredit limit: " + creditLimit + "\nInterest: " + interest + "\nAccumulated Debt: " + accumulatedDebt;
     }
 }

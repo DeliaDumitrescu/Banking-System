@@ -2,6 +2,7 @@ package Entities;
 
 import Entities.Account.Account;
 import Entities.Account.AccountStatement;
+import Entities.Card.Card;
 import Entities.Client.Client;
 import Entities.Transaction.AddFundsTransaction;
 import Entities.Transaction.ExchangeFundsTransaction;
@@ -96,12 +97,17 @@ public class MainService {
         Client client = clients.get(clientId);
         for(Account account: client.getAccounts()){
             if(account.getAccountId().equals(accountId)) {
-                RetrieveFundsTransaction transaction = new RetrieveFundsTransaction(amount, account);
-                transaction.executeTransaction();
-                Date todaysDate = new Date();
-                transactions.put(todaysDate, transaction);
-                System.out.println("Succesfully executed transaction. Current account balance: " + account.getBalance() + '\n');
-                break;
+                if(account.getBalance() > amount) {
+                    RetrieveFundsTransaction transaction = new RetrieveFundsTransaction(amount, account);
+                    transaction.executeTransaction();
+                    Date todaysDate = new Date();
+                    transactions.put(todaysDate, transaction);
+                    System.out.println("Succesfully executed transaction. Current account balance: " + account.getBalance() + '\n');
+                    break;
+                }
+                else {
+                    System.out.println("Transaction failed. Not enough funds. Current account balance:" + account.getBalance() + ". Tried to send + " + amount);
+                }
             }
         }
     }
@@ -154,16 +160,22 @@ public class MainService {
 
         for(Account senderAccount: senderClient.getAccounts()){
             if(senderAccount.getAccountId().equals(senderAccountId)) {
-                    for(Account receiverAccount: receiverClient.getAccounts()) {
-                        if(receiverAccount.getAccountId().equals(receiverAccountId)) {
-                            ExchangeFundsTransaction transaction = new ExchangeFundsTransaction(amount, senderAccount, receiverAccount);
-                            transaction.executeTransaction();
-                            Date todaysDate = new Date();
-                            transactions.put(todaysDate, transaction);
-                            System.out.println("Succesfully executed transaction. Sender account balance: " + senderAccount.getBalance() + " Receiver account balance: " + receiverAccount.getBalance() + '\n');
-                            break;
+                    if(senderAccount.getBalance() > amount) {
+                        for(Account receiverAccount: receiverClient.getAccounts()) {
+                            if(receiverAccount.getAccountId().equals(receiverAccountId)) {
+                                ExchangeFundsTransaction transaction = new ExchangeFundsTransaction(amount, senderAccount, receiverAccount);
+                                transaction.executeTransaction();
+                                Date todaysDate = new Date();
+                                transactions.put(todaysDate, transaction);
+                                System.out.println("Succesfully executed transaction. Sender account balance: " + senderAccount.getBalance() + " Receiver account balance: " + receiverAccount.getBalance() + '\n');
+                                break;
+                            }
+                            else {
+                                System.out.println("Transaction failed. Not enough funds. Current sender's account balance:" + senderAccount.getBalance() + ". Tried to send + " + amount);
+                            }
                         }
                     }
+
             }
         }
     }
@@ -189,13 +201,66 @@ public class MainService {
         }
     }
 
-    //option 10: Get transactions in cronological order
+    //option 10: Get all transactions in cronological order
+
     public void getAllTransactions() {
         System.out.println("TRANSACTIONS\n");
         SortedSet<Date> dates = new TreeSet<>(transactions.keySet());
         for (Date date : dates) {
             System.out.println(transactions.get(date));
         }
+    }
+
+    //option 11: Open card
+
+    public void openClientCard() throws IOException {
+        BufferedReader reader = new BufferedReader(
+                new InputStreamReader(System.in));
+        System.out.println("Opening card. Please enter following info: ");
+        System.out.println("Client id: ");
+        String clientId = reader.readLine();
+        Client client = clients.get(clientId);
+        String cardId = client.openCard();
+        System.out.println("Successfully opened card with id " + cardId);
+    }
+
+    //option 12: Pay by card
+
+    public void payByCard() throws IOException {
+        BufferedReader reader = new BufferedReader(
+                new InputStreamReader(System.in));
+        System.out.println("Paying by card, please enter info: ");
+        System.out.println("Card type: (debit/credit)");
+        String type = reader.readLine();
+        System.out.println("Client id: ");
+        String clientId = reader.readLine();
+        System.out.println("Card id: ");
+        String cardId = reader.readLine();
+        System.out.println("Amount: ");
+        double amount = Double.parseDouble(reader.readLine());
+        Client client = clients.get(clientId);
+        for(Card card: client.getCards()) {
+            if(card.getCardId().equals(cardId)) {
+                for(Account account: client.getAccounts()) {
+                    if(account.getAccountId() == card.getAcoountId()) {
+                        if(account.getBalance() >= amount)
+                        {
+                            Transaction transaction = new RetrieveFundsTransaction(amount, account);
+                            transaction.executeTransaction();
+                            Date todaysDate = new Date();
+                            transactions.put(todaysDate, transaction);
+                            System.out.println("Succesfully executed transaction. Current account balance: " + account.getBalance() + '\n');
+                            break;
+                        }
+                        else {
+                            System.out.println("Transaction failed. Not enough funds. Current account balance:" + account.getBalance() + ". Tried to send + " + amount);
+                        }
+
+                    }
+                }
+            }
+        }
+
     }
 
 }
