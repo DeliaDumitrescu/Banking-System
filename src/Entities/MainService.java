@@ -65,8 +65,8 @@ public class MainService {
         System.out.println("Opening account. Please enter client's id: ");
         String clientId = reader.readLine();
         Client client = clients.get(clientId);
-        client.openAccount();
-        System.out.println("Successfully opened account.\n");
+        String accountId = client.openAccount();
+        System.out.println("Successfully opened account with id: " + accountId + '\n');
     }
 
     // option 4: Show client's accounts
@@ -106,7 +106,7 @@ public class MainService {
                     break;
                 }
                 else {
-                    System.out.println("Transaction failed. Not enough funds. Current account balance:" + account.getBalance() + ". Tried to send + " + amount);
+                    System.out.println("Transaction failed. Not enough funds. Current account balance:" + account.getBalance() + ". Tried to send + " + amount + '\n');
                 }
             }
         }
@@ -171,11 +171,10 @@ public class MainService {
                                 break;
                             }
                             else {
-                                System.out.println("Transaction failed. Not enough funds. Current sender's account balance:" + senderAccount.getBalance() + ". Tried to send + " + amount);
+                                System.out.println("Transaction failed. Not enough funds. Current sender's account balance:" + senderAccount.getBalance() + ". Tried to send + " + amount + '\n');
                             }
                         }
                     }
-
             }
         }
     }
@@ -221,7 +220,7 @@ public class MainService {
         String clientId = reader.readLine();
         Client client = clients.get(clientId);
         String cardId = client.openCard();
-        System.out.println("Successfully opened card with id " + cardId);
+        System.out.println("Successfully opened card with id " + cardId + '\n');
     }
 
     //option 12: Pay by card
@@ -230,8 +229,8 @@ public class MainService {
         BufferedReader reader = new BufferedReader(
                 new InputStreamReader(System.in));
         System.out.println("Paying by card, please enter info: ");
-        System.out.println("Card type: (debit/credit)");
-        String type = reader.readLine();
+//        System.out.println("Card type: (debit/credit)");
+//        String type = reader.readLine();
         System.out.println("Client id: ");
         String clientId = reader.readLine();
         System.out.println("Card id: ");
@@ -242,7 +241,7 @@ public class MainService {
         for(Card card: client.getCards()) {
             if(card.getCardId().equals(cardId)) {
                 for(Account account: client.getAccounts()) {
-                    if(account.getAccountId() == card.getAcoountId()) {
+                    if(account.getAccountId().equals(card.getAcoountId())) {
                         if(account.getBalance() >= amount)
                         {
                             Transaction transaction = new RetrieveFundsTransaction(amount, account);
@@ -253,11 +252,12 @@ public class MainService {
                             break;
                         }
                         else {
-                            System.out.println("Transaction failed. Not enough funds. Current account balance:" + account.getBalance() + ". Tried to send + " + amount);
+                            System.out.println("Transaction failed. Not enough funds. Current account balance: " + account.getBalance() + ". Tried to send " + amount + '\n');
                         }
 
                     }
                 }
+                break;
             }
         }
 

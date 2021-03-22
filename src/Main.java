@@ -9,11 +9,13 @@ public class Main {
         c.addClient();
 //        c.addClient();
         c.openAccount();
+        c.openClientCard();
 //        c.openAccount();
-        c.showClientAccounts();
+//        c.showClientAccounts();
 //        c.showClientAccounts();
         c.addMoneyToAccount();
-        c.retrieveMoneyFromAccount();
+        c.payByCard();
+//        c.retrieveMoneyFromAccount();
 //        c.getAccountStatement();
         c.getAllTransactions();
 

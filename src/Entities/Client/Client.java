@@ -76,9 +76,10 @@ public class Client {
         this.cards = cards;
     }
 
-    public void openAccount() {
+    public String openAccount() {
         Account newAccount = new Account();
         accounts.add(newAccount);
+        return newAccount.getAccountId();
     }
 
     public String openCard() throws IOException {
@@ -94,7 +95,7 @@ public class Client {
         String number = reader.readLine();
         System.out.println("CVV: ");
         int cvv = Integer.parseInt((reader.readLine()));
-        if(type == "credit") {
+        if(type.equals("credit")) {
             System.out.println("Credit limit: ");
             double creditLimit = Double.parseDouble(reader.readLine());
             System.out.println("Interest: ");
@@ -103,7 +104,7 @@ public class Client {
             cards.add(card);
             return card.getCardId();
         }
-        else if(type == "debit") {
+        else if(type.equals("debit")) {
             card = new DebitCard(accountId, number, cvv);
             cards.add(card);
             return card.getCardId();
