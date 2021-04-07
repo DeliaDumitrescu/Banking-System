@@ -3,6 +3,8 @@ package Entities;
 import Entities.Account.Account;
 import Entities.Account.AccountStatement;
 import Entities.Card.Card;
+import Entities.Card.CreditCard;
+import Entities.Card.DebitCard;
 import Entities.Client.Client;
 import Entities.Transaction.AddFundsTransaction;
 import Entities.Transaction.ExchangeFundsTransaction;
@@ -47,7 +49,7 @@ public class MainService {
         System.out.println("Successfully added client " + name + " with id " + newClient.getClientId() + '\n');
     }
 
-    //option 2: Show clients info
+    // option 2: Show clients info
 
     public void showClients() {
         System.out.println("Showing clients: ");
@@ -229,8 +231,6 @@ public class MainService {
         BufferedReader reader = new BufferedReader(
                 new InputStreamReader(System.in));
         System.out.println("Paying by card, please enter info: ");
-//        System.out.println("Card type: (debit/credit)");
-//        String type = reader.readLine();
         System.out.println("Client id: ");
         String clientId = reader.readLine();
         System.out.println("Card id: ");
@@ -242,7 +242,7 @@ public class MainService {
             if(card.getCardId().equals(cardId)) {
                 for(Account account: client.getAccounts()) {
                     if(account.getAccountId().equals(card.getAcoountId())) {
-                        if(account.getBalance() >= amount)
+                        if (card instanceof DebitCard && account.getBalance() >= amount)
                         {
                             Transaction transaction = new RetrieveFundsTransaction(amount, account);
                             transaction.executeTransaction();
@@ -251,8 +251,13 @@ public class MainService {
                             System.out.println("Succesfully executed transaction. Current account balance: " + account.getBalance() + '\n');
                             break;
                         }
+                        else if (card instanceof CreditCard && ((CreditCard) card).getaccumulatedDebt() + amount <= ((CreditCard) card).getCreditLimit()) {
+                            double accumulatedDebt = ((CreditCard) card).getaccumulatedDebt();
+                            ((CreditCard) card).setaccumulatedDebt(accumulatedDebt + amount);
+                            System.out.println("Succesfully executed transaction. Credit card spendings: " + ((CreditCard) card).getaccumulatedDebt() + '\n');
+                        }
                         else {
-                            System.out.println("Transaction failed. Not enough funds. Current account balance: " + account.getBalance() + ". Tried to send " + amount + '\n');
+                            System.out.println("Transaction failed. Not enough funds.\n");
                         }
 
                     }
