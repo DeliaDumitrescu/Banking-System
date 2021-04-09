@@ -9,6 +9,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Scanner;
 import java.util.UUID;
 
 public class Client {
@@ -82,24 +83,23 @@ public class Client {
         return newAccount.getAccountId();
     }
 
-    public String openCard() throws IOException {
-        Card card;
-        BufferedReader reader = new BufferedReader(
-                new InputStreamReader(System.in));
+    public String openCard() {
+        Scanner scanner = new Scanner(System.in);
+        Card card;;
         System.out.println("Please enter following info: ");
         System.out.println("Card type (debit or credit)");
-        String type = reader.readLine();
+        String type = scanner.next();
         System.out.println("Account id: ");
-        String accountId = reader.readLine();
+        String accountId = scanner.next();
         System.out.println("Number: ");
-        String number = reader.readLine();
+        String number = scanner.next();
         System.out.println("CVV: ");
-        int cvv = Integer.parseInt((reader.readLine()));
+        int cvv = Integer.parseInt((scanner.next()));
         if(type.equals("credit")) {
             System.out.println("Credit limit: ");
-            double creditLimit = Double.parseDouble(reader.readLine());
+            double creditLimit = Double.parseDouble(scanner.next());
             System.out.println("Interest: ");
-            double interest = Double.parseDouble(reader.readLine());
+            double interest = Double.parseDouble(scanner.next());
             card = new CreditCard(accountId, number, cvv, creditLimit, interest);
             cards.add(card);
             return card.getCardId();

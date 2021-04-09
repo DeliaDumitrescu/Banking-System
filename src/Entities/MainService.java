@@ -11,37 +11,30 @@ import Entities.Transaction.ExchangeFundsTransaction;
 import Entities.Transaction.RetrieveFundsTransaction;
 import Entities.Transaction.Transaction;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.*;
 
 
 public class MainService {
     HashMap<String, Client> clients;
     HashMap<Date, Transaction> transactions;
+    Scanner scanner;
 
     public MainService() {
         clients = new HashMap<>();
         transactions = new HashMap<>();
+        scanner = new Scanner(System.in);
     }
 
     // option 1: Add a new client
 
-    public void addClient() throws IOException {
-        BufferedReader reader = new BufferedReader(
-                new InputStreamReader(System.in));
-
+    public void addClient() {
         System.out.println("Adding new client. Please enter following client info: ");
         System.out.println("Name: ");
-        String name = reader.readLine();
+        String name = scanner.next();
         System.out.println("National id: ");
-        String nationalId = reader.readLine();
+        String nationalId = scanner.next();
         System.out.println("Phone number: ");
-        String phoneNumber = reader.readLine();
+        String phoneNumber = scanner.next();
 
         Client newClient = new Client(nationalId, name, phoneNumber);
         String clientId = newClient.getClientId();
@@ -61,11 +54,9 @@ public class MainService {
 
     //option 3: Open account for client
 
-    public void openAccount() throws IOException{
-        BufferedReader reader = new BufferedReader(
-                new InputStreamReader(System.in));
+    public void openAccount() {
         System.out.println("Opening account. Please enter client's id: ");
-        String clientId = reader.readLine();
+        String clientId = scanner.next();;
         Client client = clients.get(clientId);
         String accountId = client.openAccount();
         System.out.println("Successfully opened account with id: " + accountId + '\n');
@@ -73,11 +64,9 @@ public class MainService {
 
     // option 4: Show client's accounts
 
-    public void showClientAccounts() throws IOException{
-        BufferedReader reader = new BufferedReader(
-                new InputStreamReader(System.in));
+    public void showClientAccounts() {
         System.out.println("Showing client's accounts. Please enter client's id: ");
-        String clientId = reader.readLine();
+        String clientId = scanner.next();
         Client client = clients.get(clientId);
         client.showAccounts();
         System.out.println('\n');
@@ -85,16 +74,14 @@ public class MainService {
 
     //option 5: Create transaction to retrieve money
 
-    public void retrieveMoneyFromAccount() throws IOException{
-        BufferedReader reader = new BufferedReader(
-                new InputStreamReader(System.in));
+    public void retrieveMoneyFromAccount() {
         System.out.println("Retrieving money from account. Please enter following info: ");
         System.out.println("Client id: ");
-        String clientId = reader.readLine();
+        String clientId = scanner.next();
         System.out.println("Account id: ");
-        String accountId = reader.readLine();
+        String accountId = scanner.next();
         System.out.println("Amount to retrieve: ");
-        double amount = Double.parseDouble(reader.readLine());
+        double amount = Double.parseDouble(scanner.next());
 
         Client client = clients.get(clientId);
         for(Account account: client.getAccounts()){
@@ -116,16 +103,14 @@ public class MainService {
 
     //option 6: Create transaction to add money
 
-    public void addMoneyToAccount() throws IOException{
-        BufferedReader reader = new BufferedReader(
-                new InputStreamReader(System.in));
+    public void addMoneyToAccount() {
         System.out.println("Adding money to account. Please enter following info: ");
         System.out.println("Client id: ");
-        String clientId = reader.readLine();
+        String clientId = scanner.next();
         System.out.println("Account id: ");
-        String accountId = reader.readLine();
+        String accountId = scanner.next();
         System.out.println("Amount to add: ");
-        double amount = Double.parseDouble(reader.readLine());
+        double amount = Double.parseDouble(scanner.next());
 
         Client client = clients.get(clientId);
         for(Account account: client.getAccounts()){
@@ -142,20 +127,18 @@ public class MainService {
 
     //option 7: Create transaction to send money from one account to another
 
-    public void exchangeMoneyBetweenAccounts() throws IOException{
-        BufferedReader reader = new BufferedReader(
-                new InputStreamReader(System.in));
+    public void exchangeMoneyBetweenAccounts() {
         System.out.println("Exchanging money between accounts. Please enter following info: ");
         System.out.println("Sender client id: ");
-        String senderClientId = reader.readLine();
+        String senderClientId = scanner.next();
         System.out.println("Sender account id: ");
-        String senderAccountId = reader.readLine();
+        String senderAccountId = scanner.next();
         System.out.println("Receiver client id: ");
-        String receiverClientId = reader.readLine();
+        String receiverClientId = scanner.next();
         System.out.println("Sender account id: ");
-        String receiverAccountId = reader.readLine();
+        String receiverAccountId = scanner.next();
         System.out.println("Amount to exchange: ");
-        double amount = Double.parseDouble(reader.readLine());
+        double amount = Double.parseDouble(scanner.next());
 
         Client senderClient = clients.get(senderClientId);
         Client receiverClient = clients.get(receiverClientId);
@@ -183,14 +166,12 @@ public class MainService {
 
     //option 9: Get account statement
 
-    public void getAccountStatement() throws IOException {
-        BufferedReader reader = new BufferedReader(
-                new InputStreamReader(System.in));
+    public void getAccountStatement() {
         System.out.println("Getting account statement. Please enter following info: ");
         System.out.println("Client id: ");
-        String clientId = reader.readLine();
+        String clientId = scanner.next();
         System.out.println("Account id: ");
-        String accountId = reader.readLine();
+        String accountId = scanner.next();
         System.out.println("\n--ACCOUNT STATEMENT--\n");
 
         Client client = clients.get(clientId);
@@ -214,12 +195,10 @@ public class MainService {
 
     //option 11: Open card
 
-    public void openClientCard() throws IOException {
-        BufferedReader reader = new BufferedReader(
-                new InputStreamReader(System.in));
+    public void openClientCard() {
         System.out.println("Opening card. Please enter following info: ");
         System.out.println("Client id: ");
-        String clientId = reader.readLine();
+        String clientId = scanner.next();
         Client client = clients.get(clientId);
         String cardId = client.openCard();
         System.out.println("Successfully opened card with id " + cardId + '\n');
@@ -227,16 +206,14 @@ public class MainService {
 
     //option 12: Pay by card
 
-    public void payByCard() throws IOException {
-        BufferedReader reader = new BufferedReader(
-                new InputStreamReader(System.in));
+    public void payByCard() {
         System.out.println("Paying by card, please enter info: ");
         System.out.println("Client id: ");
-        String clientId = reader.readLine();
+        String clientId = scanner.next();
         System.out.println("Card id: ");
-        String cardId = reader.readLine();
+        String cardId = scanner.next();
         System.out.println("Amount: ");
-        double amount = Double.parseDouble(reader.readLine());
+        double amount = Double.parseDouble(scanner.next());
         Client client = clients.get(clientId);
         for(Card card: client.getCards()) {
             if(card.getCardId().equals(cardId)) {
