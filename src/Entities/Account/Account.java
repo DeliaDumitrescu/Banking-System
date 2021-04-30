@@ -64,4 +64,8 @@ public class Account {
     public @Override String toString() {
         return "Account Id: " + accountId + "\nDate of creation: " + dateOfCreation + "\nBalance: " + balance;
     }
+
+    public String toCSV() {
+        return accountId + ',' + dateOfCreation + ',' + balance;
+    }
 }

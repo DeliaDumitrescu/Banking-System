@@ -1,6 +1,7 @@
 package Entities;
 
 import Entities.Account.Account;
+import Entities.Account.AccountSingleton;
 import Entities.Account.AccountStatement;
 import Entities.Card.Card;
 import Entities.Card.CreditCard;
@@ -20,12 +21,14 @@ public class MainService {
     HashMap<Date, Transaction> transactions;
     Scanner scanner;
     ClientSingleton clientSingleton;
+    AccountSingleton accountSingleton;
 
     public MainService() {
         clients = new HashMap<>();
         transactions = new HashMap<>();
         scanner = new Scanner(System.in);
         clientSingleton = ClientSingleton.getInstance();
+        accountSingleton = AccountSingleton.getInstance();
     }
 
     // Load CSV files
@@ -35,15 +38,35 @@ public class MainService {
         for(Client csvClient: csvClients) {
             clients.put(csvClient.getClientId(), csvClient);
         }
+
+        accountSingleton.parseCSVFile("data/read/accounts.csv");
+        HashMap<String, ArrayList<Account>> csvAccounts = accountSingleton.getAccounts();
+        for(String clientName: csvAccounts.keySet()) {
+            ArrayList<Account> clientAccounts = csvAccounts.get(clientName);
+            for(String clientId: clients.keySet()) {
+                Client client = clients.get(clientId);
+                if(client.getName().equals(clientName)) {
+                    for(Account clientAccount: clientAccounts) {
+                        client.addAccount(clientAccount);
+                    }
+                    break;
+                }
+            }
+        }
     }
 
     // Write to CSV files
     public void writeCSVFiles() {
         ArrayList<Client> csvClients = new ArrayList<>();
+        ArrayList<Account> csvAccounts = new ArrayList<>();
         for (String clientId : clients.keySet()) {
-           csvClients.add(clients.get(clientId));
+            Client csvClient = clients.get(clientId);
+           csvClients.add(csvClient);
+           ArrayList<Account> csvClientAccounts = csvClient.getAccounts();
+           csvAccounts.addAll(csvClientAccounts);
         }
         clientSingleton.writeCSVFile(csvClients, "data/write/clients.csv");
+        accountSingleton.writeCSVFile(csvAccounts, "data/write/accounts.csv");
     }
 
     // option 1: Add a new client
@@ -76,9 +99,15 @@ public class MainService {
     //option 3: Open account for client
 
     public void openAccount() {
-        System.out.println("Opening account. Please enter client's id: ");
-        String clientId = scanner.next();;
-        Client client = clients.get(clientId);
+        Client client = null;
+        System.out.println("Opening account. Please enter client's name: ");
+        String name = scanner.next();;
+        for(String clientId: clients.keySet()) {
+            if(clients.get(clientId).getName().equals(name)) {
+                client = clients.get(clientId);
+                break;
+            }
+        }
         String accountId = client.openAccount();
         System.out.println("Successfully opened account with id: " + accountId + '\n');
     }

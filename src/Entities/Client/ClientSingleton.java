@@ -1,7 +1,5 @@
 package Entities.Client;
 
-import Entities.Card.Card;
-
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,7 +19,7 @@ public class ClientSingleton {
         return this.clients;
     }
 
-    public void setClients(ArrayList<Card> cards) {
+    public void setClients(ArrayList<Client> clients) {
         this.clients = clients;
     }
 
@@ -33,8 +31,6 @@ public class ClientSingleton {
                 String[] values = line.split(",");
                 lines.add(Arrays.asList(values));
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }

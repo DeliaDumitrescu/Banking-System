@@ -9,8 +9,9 @@ public class Main {
         MainService service = new MainService();
         service.parseCSVFiles();
         service.addClient();
+        service.openAccount();
         service.writeCSVFiles();
-//        service.openAccount();
+
 //        service.openClientCard();
 //        service.addMoneyToAccount();
 //        service.payByCard();

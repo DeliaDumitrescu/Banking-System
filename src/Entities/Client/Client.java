@@ -80,6 +80,10 @@ public class Client {
         return newAccount.getAccountId();
     }
 
+    public void addAccount(Account account) {
+        accounts.add(account);
+    }
+
     public String openCard() {
         Scanner scanner = new Scanner(System.in);
         Card card;
