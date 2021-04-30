@@ -84,6 +84,8 @@ public class Client {
         accounts.add(account);
     }
 
+    public void addCard(Card card) { cards.add(card); }
+
     public String openCard() {
         Scanner scanner = new Scanner(System.in);
         Card card;
@@ -101,7 +103,7 @@ public class Client {
             double creditLimit = Double.parseDouble(scanner.next());
             System.out.println("Interest: ");
             double interest = Double.parseDouble(scanner.next());
-            card = new CreditCard(accountId, number, cvv, creditLimit, interest);
+            card = new CreditCard(accountId, number, cvv, creditLimit, creditLimit, interest);
             cards.add(card);
             return card.getCardId();
         }

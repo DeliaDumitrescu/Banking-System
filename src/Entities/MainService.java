@@ -4,6 +4,7 @@ import Entities.Account.Account;
 import Entities.Account.AccountSingleton;
 import Entities.Account.AccountStatement;
 import Entities.Card.Card;
+import Entities.Card.CardSingleton;
 import Entities.Card.CreditCard;
 import Entities.Card.DebitCard;
 import Entities.Client.Client;
@@ -22,6 +23,7 @@ public class MainService {
     Scanner scanner;
     ClientSingleton clientSingleton;
     AccountSingleton accountSingleton;
+    CardSingleton cardSingleton;
 
     public MainService() {
         clients = new HashMap<>();
@@ -29,6 +31,7 @@ public class MainService {
         scanner = new Scanner(System.in);
         clientSingleton = ClientSingleton.getInstance();
         accountSingleton = AccountSingleton.getInstance();
+        cardSingleton = CardSingleton.getInstance();
     }
 
     // Load CSV files
@@ -42,26 +45,42 @@ public class MainService {
         accountSingleton.parseCSVFile("data/read/accounts.csv");
         HashMap<String, ArrayList<Account>> csvAccounts = accountSingleton.getAccounts();
         for(String clientId: csvAccounts.keySet()) {
-            ArrayList<Account> clientAccounts = csvAccounts.get(clientId);
             Client client = clients.get(clientId);
+            ArrayList<Account> clientAccounts = csvAccounts.get(clientId);
             for(Account clientAccount: clientAccounts) {
                 client.addAccount(clientAccount);
             }
         }
+
+        cardSingleton.parseCSVFile("data/read/cards.csv");
+        HashMap<String, ArrayList<Card>> csvCards = cardSingleton.getCards();
+        for(String clientId: csvCards.keySet()) {
+            Client client = clients.get(clientId);
+            ArrayList<Card> clientCards = csvCards.get(clientId);
+            for(Card clientCard: clientCards) {
+                client.addCard(clientCard);
+            }
+        }
+
     }
 
     // Write to CSV files
     public void writeCSVFiles() {
         ArrayList<Client> csvClients = new ArrayList<>();
         ArrayList<Account> csvAccounts = new ArrayList<>();
+        ArrayList<Card> csvCards = new ArrayList<>();
+
         for (String clientId : clients.keySet()) {
             Client csvClient = clients.get(clientId);
             csvClients.add(csvClient);
             ArrayList<Account> csvClientAccounts = csvClient.getAccounts();
             csvAccounts.addAll(csvClientAccounts);
+            ArrayList<Card> csvClientCards = csvClient.getCards();
+3            csvCards.addAll(csvClientCards);
         }
         clientSingleton.writeCSVFile(csvClients, "data/write/clients.csv");
         accountSingleton.writeCSVFile(csvAccounts, "data/write/accounts.csv");
+        cardSingleton.writeCSVFile(csvCards, "data/write/cards.csv");
     }
 
     // option 1: Add a new client

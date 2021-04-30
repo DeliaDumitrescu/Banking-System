@@ -65,6 +65,8 @@ public abstract class Card {
 
     abstract public @Override String toString();
 
+    abstract  public String toCSV();
+
 }
 
 

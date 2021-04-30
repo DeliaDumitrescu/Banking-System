@@ -1,13 +1,11 @@
 package Entities.Card;
 
-import java.util.Date;
-
 public class CreditCard extends Card {
     double creditLimit;
     double interest;
     double accumulatedDebt;
 
-    public CreditCard(String accountId, String number, int cvv, double creditLimit, double interest) {
+    public CreditCard(String accountId, String number, int cvv, double limit, double creditLimit, double interest) {
         super(accountId, number, cvv);
         this.creditLimit = creditLimit;
         this.interest = interest;
@@ -42,5 +40,10 @@ public class CreditCard extends Card {
     public @Override String toString() {
         return "Card Id: " + cardId + "\nAccount Id: " + accountId + "\nNumber: " + number + "\nCvv: " + cvv + "\nExpiration Date: " + expirationDate
                 + "\nCredit limit: " + creditLimit + "\nInterest: " + interest + "\nAccumulated Debt: " + accumulatedDebt;
+    }
+
+    public String toCSV() {
+        return cardId + "," + accountId + ',' + number + ',' + cvv + ',' + expirationDate
+                + ',' + creditLimit + ',' + interest + ',' + accumulatedDebt;
     }
 }

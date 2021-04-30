@@ -4,7 +4,6 @@ import Entities.Transaction.Transaction;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.UUID;
 
 public class Account {
     private String accountId;

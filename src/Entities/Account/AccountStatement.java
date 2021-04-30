@@ -1,6 +1,5 @@
 package Entities.Account;
 
-import Entities.Account.Account;
 import Entities.Transaction.Transaction;
 
 import java.util.ArrayList;
