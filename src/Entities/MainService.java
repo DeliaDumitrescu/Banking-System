@@ -56,9 +56,9 @@ public class MainService {
         ArrayList<Account> csvAccounts = new ArrayList<>();
         for (String clientId : clients.keySet()) {
             Client csvClient = clients.get(clientId);
-           csvClients.add(csvClient);
-           ArrayList<Account> csvClientAccounts = csvClient.getAccounts();
-           csvAccounts.addAll(csvClientAccounts);
+            csvClients.add(csvClient);
+            ArrayList<Account> csvClientAccounts = csvClient.getAccounts();
+            csvAccounts.addAll(csvClientAccounts);
         }
         clientSingleton.writeCSVFile(csvClients, "data/write/clients.csv");
         accountSingleton.writeCSVFile(csvAccounts, "data/write/accounts.csv");

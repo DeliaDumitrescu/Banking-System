@@ -12,8 +12,8 @@ public class Account {
     private Double balance;
     private ArrayList<Transaction> transactions;
 
-    public Account() {
-        this.accountId = UUID.randomUUID().toString();
+    public Account(String accountId) {
+        this.accountId = accountId;
         this.dateOfCreation = new Date();
         this.balance = 0.0;
         this.transactions = new ArrayList<>();

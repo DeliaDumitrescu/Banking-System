@@ -74,7 +74,8 @@ public class Client {
     }
 
     public String openAccount() {
-        Account newAccount = new Account();
+        int accountId = accounts.size() + 1;
+        Account newAccount = new Account(clientId + "." + accountId);
         accounts.add(newAccount);
         return newAccount.getAccountId();
     }

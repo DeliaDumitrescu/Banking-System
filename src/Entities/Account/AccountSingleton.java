@@ -38,13 +38,18 @@ public class AccountSingleton {
         }
         for(List<String> line:lines) {
             String clientId = line.get(0);
-            Account account = new Account();
+            String accountId;
             if (accounts.containsKey(clientId)) {
                 currentAccounts = accounts.get(clientId);
+                int nr = currentAccounts.size() + 1;
+                accountId = clientId + '.' + nr;
             }
             else {
-               currentAccounts = new ArrayList<>();
+                currentAccounts = new ArrayList<>();
+                accountId = clientId + ".1";
             }
+
+            Account account = new Account(accountId);
             currentAccounts.add(account);
             accounts.put(clientId, currentAccounts);
         }
