@@ -7,7 +7,6 @@ import Entities.Card.DebitCard;
 
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.UUID;
 
 public class Client {
     private String clientId;
@@ -17,8 +16,8 @@ public class Client {
     private ArrayList<Account> accounts;
     private ArrayList<Card> cards;
 
-    public Client(String nationalId, String name, String phoneNumber) {
-        this.clientId = UUID.randomUUID().toString(); // unique identifier
+    public Client(String clientId, String nationalId, String name, String phoneNumber) {
+        this.clientId = clientId; // unique identifier
         this.nationalId = nationalId; // CNP
         this.name = name;
         this.phoneNumber = phoneNumber;

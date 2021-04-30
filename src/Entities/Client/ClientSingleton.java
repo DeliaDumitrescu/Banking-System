@@ -35,7 +35,7 @@ public class ClientSingleton {
             e.printStackTrace();
         }
         for(List<String> line:lines) {
-            Client client = new Client(line.get(0), line.get(1), line.get(2));
+            Client client = new Client(line.get(0), line.get(1), line.get(2), line.get(3));
             clients.add(client);
         }
     }

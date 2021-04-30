@@ -41,16 +41,11 @@ public class MainService {
 
         accountSingleton.parseCSVFile("data/read/accounts.csv");
         HashMap<String, ArrayList<Account>> csvAccounts = accountSingleton.getAccounts();
-        for(String clientName: csvAccounts.keySet()) {
-            ArrayList<Account> clientAccounts = csvAccounts.get(clientName);
-            for(String clientId: clients.keySet()) {
-                Client client = clients.get(clientId);
-                if(client.getName().equals(clientName)) {
-                    for(Account clientAccount: clientAccounts) {
-                        client.addAccount(clientAccount);
-                    }
-                    break;
-                }
+        for(String clientId: csvAccounts.keySet()) {
+            ArrayList<Account> clientAccounts = csvAccounts.get(clientId);
+            Client client = clients.get(clientId);
+            for(Account clientAccount: clientAccounts) {
+                client.addAccount(clientAccount);
             }
         }
     }
@@ -80,7 +75,7 @@ public class MainService {
         System.out.println("Phone number: ");
         String phoneNumber = scanner.next();
 
-        Client newClient = new Client(nationalId, name, phoneNumber);
+        Client newClient = new Client(String.valueOf(clients.size()+1), nationalId, name, phoneNumber);
         String clientId = newClient.getClientId();
         clients.put(clientId, newClient);
         System.out.println("Successfully added client " + name + " with id " + newClient.getClientId() + '\n');
@@ -99,15 +94,9 @@ public class MainService {
     //option 3: Open account for client
 
     public void openAccount() {
-        Client client = null;
-        System.out.println("Opening account. Please enter client's name: ");
-        String name = scanner.next();;
-        for(String clientId: clients.keySet()) {
-            if(clients.get(clientId).getName().equals(name)) {
-                client = clients.get(clientId);
-                break;
-            }
-        }
+        System.out.println("Opening account. Please enter client's id: ");
+        String clientId = scanner.next();;
+        Client client = clients.get(clientId);
         String accountId = client.openAccount();
         System.out.println("Successfully opened account with id: " + accountId + '\n');
     }

@@ -1,7 +1,5 @@
 package Entities.Account;
 
-import Entities.Client.Client;
-
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -39,16 +37,16 @@ public class AccountSingleton {
             e.printStackTrace();
         }
         for(List<String> line:lines) {
-            String name = line.get(0);
+            String clientId = line.get(0);
             Account account = new Account();
-            if (accounts.containsKey(name)) {
-                currentAccounts = accounts.get(name);
+            if (accounts.containsKey(clientId)) {
+                currentAccounts = accounts.get(clientId);
             }
             else {
                currentAccounts = new ArrayList<>();
             }
             currentAccounts.add(account);
-            accounts.put(name, currentAccounts);
+            accounts.put(clientId, currentAccounts);
         }
     }
 
