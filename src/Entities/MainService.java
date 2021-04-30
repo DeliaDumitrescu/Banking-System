@@ -6,6 +6,7 @@ import Entities.Card.Card;
 import Entities.Card.CreditCard;
 import Entities.Card.DebitCard;
 import Entities.Client.Client;
+import Entities.Client.ClientSingleton;
 import Entities.Transaction.AddFundsTransaction;
 import Entities.Transaction.ExchangeFundsTransaction;
 import Entities.Transaction.RetrieveFundsTransaction;
@@ -18,11 +19,31 @@ public class MainService {
     HashMap<String, Client> clients;
     HashMap<Date, Transaction> transactions;
     Scanner scanner;
+    ClientSingleton clientSingleton;
 
     public MainService() {
         clients = new HashMap<>();
         transactions = new HashMap<>();
         scanner = new Scanner(System.in);
+        clientSingleton = ClientSingleton.getInstance();
+    }
+
+    // Load CSV files
+    public void parseCSVFiles() {
+        clientSingleton.parseCSVFile("data/read/clients.csv");
+        ArrayList<Client> csvClients = clientSingleton.getClients();
+        for(Client csvClient: csvClients) {
+            clients.put(csvClient.getClientId(), csvClient);
+        }
+    }
+
+    // Write to CSV files
+    public void writeCSVFiles() {
+        ArrayList<Client> csvClients = new ArrayList<>();
+        for (String clientId : clients.keySet()) {
+           csvClients.add(clients.get(clientId));
+        }
+        clientSingleton.writeCSVFile(csvClients, "data/write/clients.csv");
     }
 
     // option 1: Add a new client

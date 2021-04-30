@@ -5,9 +5,6 @@ import Entities.Card.Card;
 import Entities.Card.CreditCard;
 import Entities.Card.DebitCard;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.UUID;
@@ -85,7 +82,7 @@ public class Client {
 
     public String openCard() {
         Scanner scanner = new Scanner(System.in);
-        Card card;;
+        Card card;
         System.out.println("Please enter following info: ");
         System.out.println("Card type (debit or credit)");
         String type = scanner.next();
@@ -121,6 +118,10 @@ public class Client {
     public @Override String toString() {
         return name.toUpperCase() + '\n' + "Client Id: " + clientId + "\nNational Id: " + nationalId +
                 "\nPhone number: " + phoneNumber;
+    }
+
+    public String toCSV() {
+        return name + ','  + clientId + ',' + nationalId + ',' + phoneNumber;
     }
 
 }
