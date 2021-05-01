@@ -1,18 +1,20 @@
 package Entities.Transaction;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public abstract class Transaction {
-    protected Date date;
+    protected String date;
     protected double amount;
 
     public Transaction(double amount) {
-        Date date = new Date();
-        this.date = date;
+//        Date date = new Date();
+         this.date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(new Date());
+//        this.date = date;
         this.amount = amount;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
@@ -31,4 +33,6 @@ public abstract class Transaction {
     public abstract void executeTransaction();
 
     abstract public @Override String toString();
+
+    abstract  public String toCSV();
 }

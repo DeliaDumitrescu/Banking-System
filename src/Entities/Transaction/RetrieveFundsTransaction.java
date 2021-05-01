@@ -26,4 +26,8 @@ public class RetrieveFundsTransaction extends Transaction {
     public @Override String toString() {
         return "Date: " + date + "\nRetrieved amount: " + amount + "\nFrom account with id: " + account.getAccountId();
     }
+
+    public String toCSV() {
+        return String.valueOf(date) + ',' + amount + ',' + account.getAccountId();
+    }
 }

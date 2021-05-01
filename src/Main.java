@@ -8,7 +8,7 @@ public class Main {
     {
         MainService service = new MainService();
         service.parseCSVFiles();
-        service.openClientCard();
+//        service.openClientCard();
         service.writeCSVFiles();
 
 
