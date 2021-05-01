@@ -8,9 +8,7 @@ public abstract class Transaction {
     protected double amount;
 
     public Transaction(double amount) {
-//        Date date = new Date();
-         this.date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(new Date());
-//        this.date = date;
+        this.date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(new Date());
         this.amount = amount;
     }
 

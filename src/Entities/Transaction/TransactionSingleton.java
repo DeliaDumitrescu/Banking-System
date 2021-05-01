@@ -131,7 +131,6 @@ public class TransactionSingleton {
                     }
             }
         }
-        System.out.println(transactions);
     }
 
     public void writeCSVFile(ArrayList<Transaction> csvTransactions, String filePath) {
