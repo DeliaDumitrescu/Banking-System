@@ -22,6 +22,7 @@ public class MainService {
     AccountSingleton accountSingleton;
     CardSingleton cardSingleton;
     TransactionSingleton transactionSingleton;
+    AuditService auditService;
 
     public MainService() {
         clients = new HashMap<>();
@@ -31,6 +32,7 @@ public class MainService {
         accountSingleton = AccountSingleton.getInstance();
         cardSingleton = CardSingleton.getInstance();
         transactionSingleton = TransactionSingleton.getInstance();
+        auditService = new AuditService();
     }
 
     // Load CSV files
@@ -106,6 +108,7 @@ public class MainService {
         String clientId = newClient.getClientId();
         clients.put(clientId, newClient);
         System.out.println("Successfully added client " + name + " with id " + newClient.getClientId() + '\n');
+        auditService.writeActionToAudit("add client");
     }
 
     // option 2: Show clients info
@@ -116,6 +119,7 @@ public class MainService {
             System.out.println(clients.get(clientId));
         }
         System.out.println('\n');
+        auditService.writeActionToAudit("show clients");
     }
 
     //option 3: Open account for client
@@ -126,6 +130,7 @@ public class MainService {
         Client client = clients.get(clientId);
         String accountId = client.openAccount();
         System.out.println("Successfully opened account with id: " + accountId + '\n');
+        auditService.writeActionToAudit("open account");
     }
 
     // option 4: Show client's accounts
@@ -136,6 +141,7 @@ public class MainService {
         Client client = clients.get(clientId);
         client.showAccounts();
         System.out.println('\n');
+        auditService.writeActionToAudit("show clients accounts");
     }
 
     //option 5: Create transaction to retrieve money
@@ -164,6 +170,7 @@ public class MainService {
                 }
             }
         }
+        auditService.writeActionToAudit("retrieve money from account");
     }
 
     //option 6: Create transaction to add money
@@ -187,6 +194,7 @@ public class MainService {
                 break;
             }
         }
+        auditService.writeActionToAudit("add money to account");
     }
 
     //option 7: Create transaction to send money from one account to another
@@ -225,6 +233,7 @@ public class MainService {
                     }
             }
         }
+        auditService.writeActionToAudit("exchange money between accounts");
     }
 
     //option 9: Get account statement
@@ -244,6 +253,7 @@ public class MainService {
                 System.out.println(statement);
             }
         }
+        auditService.writeActionToAudit("get account statement");
     }
 
     //option 10: Get all transactions in cronological order
@@ -254,6 +264,7 @@ public class MainService {
         for (String date : dates) {
             System.out.println(transactions.get(date));
         }
+        auditService.writeActionToAudit("get all transactions");
     }
 
     //option 11: Open card
@@ -265,6 +276,7 @@ public class MainService {
         Client client = clients.get(clientId);
         String cardId = client.openCard();
         System.out.println("Successfully opened card with id " + cardId + '\n');
+        auditService.writeActionToAudit("open client card");
     }
 
     //option 12: Pay by card
@@ -304,7 +316,7 @@ public class MainService {
                 break;
             }
         }
-
+        auditService.writeActionToAudit("pay by card");
     }
 
 }

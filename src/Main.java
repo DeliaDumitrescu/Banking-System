@@ -1,4 +1,3 @@
-import Entities.Client.ClientSingleton;
 import Entities.MainService;
 
 import java.io.IOException;
@@ -8,15 +7,16 @@ public class Main {
     {
         MainService service = new MainService();
         service.parseCSVFiles();
-//        service.openClientCard();
+        service.openClientCard();
+        service.addMoneyToAccount();
+        service.payByCard();
+        service.retrieveMoneyFromAccount();
+        service.getAccountStatement();
+        service.getAllTransactions();
         service.writeCSVFiles();
 
 
-//        service.addMoneyToAccount();
-//        service.payByCard();
-//        service.retrieveMoneyFromAccount();
-//        service.getAccountStatement();
-//        service.getAllTransactions();
+
 
     }
 }
