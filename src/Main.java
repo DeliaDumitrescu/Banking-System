@@ -3,8 +3,7 @@ import Entities.MainService;
 import java.io.IOException;
 
 public class Main {
-    public static void main(String[] args) throws IOException
-    {
+    public static void main(String[] args) throws IOException {
         MainService service = new MainService();
         service.parseCSVFiles();
         service.openClientCard();
@@ -14,9 +13,5 @@ public class Main {
         service.getAccountStatement();
         service.getAllTransactions();
         service.writeCSVFiles();
-
-
-
-
     }
 }

@@ -22,7 +22,8 @@ public class AddFundsTransaction extends Transaction {
         account.add(amount, this);
     }
 
-    public @Override String toString() {
+    public @Override
+    String toString() {
         return "Date: " + date + "\nAdded amount: " + amount + "\nTo account with id: " + account.getAccountId();
     }
 

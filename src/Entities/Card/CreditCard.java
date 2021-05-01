@@ -19,25 +19,26 @@ public class CreditCard extends Card {
     public double getInterest() {
         return interest;
     }
-    
+
     public double getaccumulatedDebt() {
         return accumulatedDebt;
     }
-    
+
     public void setCreditLimit(double creditLimit) {
         this.creditLimit = creditLimit;
     }
-    
+
     public void setInterest(double interest) {
         this.interest = interest;
     }
 
-    
+
     public void setaccumulatedDebt(double accumulatedDebt) {
         this.accumulatedDebt = accumulatedDebt;
     }
 
-    public @Override String toString() {
+    public @Override
+    String toString() {
         return "Card Id: " + cardId + "\nAccount Id: " + accountId + "\nNumber: " + number + "\nCvv: " + cvv + "\nExpiration Date: " + expirationDate
                 + "\nCredit limit: " + creditLimit + "\nInterest: " + interest + "\nAccumulated Debt: " + accumulatedDebt;
     }

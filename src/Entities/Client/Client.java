@@ -84,7 +84,9 @@ public class Client {
         accounts.add(account);
     }
 
-    public void addCard(Card card) { cards.add(card); }
+    public void addCard(Card card) {
+        cards.add(card);
+    }
 
     public String openCard() {
         Scanner scanner = new Scanner(System.in);
@@ -98,7 +100,7 @@ public class Client {
         String number = scanner.next();
         System.out.println("CVV: ");
         int cvv = Integer.parseInt((scanner.next()));
-        if(type.equals("credit")) {
+        if (type.equals("credit")) {
             System.out.println("Credit limit: ");
             double creditLimit = Double.parseDouble(scanner.next());
             System.out.println("Interest: ");
@@ -106,8 +108,7 @@ public class Client {
             card = new CreditCard(accountId, number, cvv, creditLimit, creditLimit, interest);
             cards.add(card);
             return card.getCardId();
-        }
-        else if(type.equals("debit")) {
+        } else if (type.equals("debit")) {
             card = new DebitCard(accountId, number, cvv);
             cards.add(card);
             return card.getCardId();
@@ -116,18 +117,19 @@ public class Client {
     }
 
     public void showAccounts() {
-        for(Account account: accounts) {
+        for (Account account : accounts) {
             System.out.println(account);
         }
     }
 
-    public @Override String toString() {
+    public @Override
+    String toString() {
         return name.toUpperCase() + '\n' + "Client Id: " + clientId + "\nNational Id: " + nationalId +
                 "\nPhone number: " + phoneNumber;
     }
 
     public String toCSV() {
-        return name + ','  + clientId + ',' + nationalId + ',' + phoneNumber;
+        return name + ',' + clientId + ',' + nationalId + ',' + phoneNumber;
     }
 
 }

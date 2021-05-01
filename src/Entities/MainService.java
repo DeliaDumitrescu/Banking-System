@@ -39,33 +39,33 @@ public class MainService {
     public void parseCSVFiles() {
         clientSingleton.parseCSVFile("data/read/clients.csv");
         ArrayList<Client> csvClients = clientSingleton.getClients();
-        for(Client csvClient: csvClients) {
+        for (Client csvClient : csvClients) {
             clients.put(csvClient.getClientId(), csvClient);
         }
 
         accountSingleton.parseCSVFile("data/read/accounts.csv");
         HashMap<String, ArrayList<Account>> csvAccounts = accountSingleton.getAccounts();
-        for(String clientId: csvAccounts.keySet()) {
+        for (String clientId : csvAccounts.keySet()) {
             Client client = clients.get(clientId);
             ArrayList<Account> clientAccounts = csvAccounts.get(clientId);
-            for(Account clientAccount: clientAccounts) {
+            for (Account clientAccount : clientAccounts) {
                 client.addAccount(clientAccount);
             }
         }
 
         cardSingleton.parseCSVFile("data/read/cards.csv");
         HashMap<String, ArrayList<Card>> csvCards = cardSingleton.getCards();
-        for(String clientId: csvCards.keySet()) {
+        for (String clientId : csvCards.keySet()) {
             Client client = clients.get(clientId);
             ArrayList<Card> clientCards = csvCards.get(clientId);
-            for(Card clientCard: clientCards) {
+            for (Card clientCard : clientCards) {
                 client.addCard(clientCard);
             }
         }
 
         transactionSingleton.parseCSVFile("data/read/transactions.csv", clients);
         ArrayList<Transaction> csvTransactions = transactionSingleton.getTransactions();
-        for(Transaction csvTransaction: csvTransactions) {
+        for (Transaction csvTransaction : csvTransactions) {
             transactions.put(csvTransaction.getDate(), csvTransaction);
         }
 
@@ -104,7 +104,7 @@ public class MainService {
         System.out.println("Phone number: ");
         String phoneNumber = scanner.next();
 
-        Client newClient = new Client(String.valueOf(clients.size()+1), nationalId, name, phoneNumber);
+        Client newClient = new Client(String.valueOf(clients.size() + 1), nationalId, name, phoneNumber);
         String clientId = newClient.getClientId();
         clients.put(clientId, newClient);
         System.out.println("Successfully added client " + name + " with id " + newClient.getClientId() + '\n');
@@ -126,7 +126,7 @@ public class MainService {
 
     public void openAccount() {
         System.out.println("Opening account. Please enter client's id: ");
-        String clientId = scanner.next();;
+        String clientId = scanner.next();
         Client client = clients.get(clientId);
         String accountId = client.openAccount();
         System.out.println("Successfully opened account with id: " + accountId + '\n');
@@ -156,16 +156,15 @@ public class MainService {
         double amount = Double.parseDouble(scanner.next());
 
         Client client = clients.get(clientId);
-        for(Account account: client.getAccounts()){
-            if(account.getAccountId().equals(accountId)) {
-                if(account.getBalance() > amount) {
+        for (Account account : client.getAccounts()) {
+            if (account.getAccountId().equals(accountId)) {
+                if (account.getBalance() > amount) {
                     RetrieveFundsTransaction transaction = new RetrieveFundsTransaction(amount, account);
                     transaction.executeTransaction();
                     transactions.put(transaction.getDate(), transaction);
-                    System.out.println("Succesfully executed retrieve funds transaction." + "Client id: " + clientId + "account id: " + accountId +  " account balance: " + account.getBalance() + '\n');
+                    System.out.println("Succesfully executed retrieve funds transaction." + "Client id: " + clientId + "account id: " + accountId + " account balance: " + account.getBalance() + '\n');
                     break;
-                }
-                else {
+                } else {
                     System.out.println("Retrieve funds transaction failed . Not enough funds. Client id: " + clientId + " Account id: " + accountId + " Current account balance:" + account.getBalance() + ". Tried to send + " + amount + '\n');
                 }
             }
@@ -185,12 +184,12 @@ public class MainService {
         double amount = Double.parseDouble(scanner.next());
 
         Client client = clients.get(clientId);
-        for(Account account: client.getAccounts()){
-            if(account.getAccountId().equals(accountId)) {
+        for (Account account : client.getAccounts()) {
+            if (account.getAccountId().equals(accountId)) {
                 AddFundsTransaction transaction = new AddFundsTransaction(amount, account);
                 transaction.executeTransaction();
                 transactions.put(transaction.getDate(), transaction);
-                System.out.println("Succesfully executed add funds transaction." + "Client id: " + clientId + "account id: " + accountId +  " account balance: " + account.getBalance() + '\n');
+                System.out.println("Succesfully executed add funds transaction." + "Client id: " + clientId + "account id: " + accountId + " account balance: " + account.getBalance() + '\n');
                 break;
             }
         }
@@ -215,22 +214,21 @@ public class MainService {
         Client senderClient = clients.get(senderClientId);
         Client receiverClient = clients.get(receiverClientId);
 
-        for(Account senderAccount: senderClient.getAccounts()){
-            if(senderAccount.getAccountId().equals(senderAccountId)) {
-                    if(senderAccount.getBalance() > amount) {
-                        for(Account receiverAccount: receiverClient.getAccounts()) {
-                            if(receiverAccount.getAccountId().equals(receiverAccountId)) {
-                                ExchangeFundsTransaction transaction = new ExchangeFundsTransaction(amount, senderAccount, receiverAccount);
-                                transaction.executeTransaction();
-                                transactions.put(transaction.getDate(), transaction);
-                                System.out.println("Succesfully executed exchange funds transaction. Sender client id: " + senderClientId + " account id: " + senderAccountId + " account balance: " + senderAccount.getBalance() + ". Receiver client id: " + receiverClientId + " account id: " + receiverAccountId + " account balance: " + receiverAccount.getBalance() + '\n');
-                                break;
-                            }
-                            else {
-                                System.out.println("Exchange funds transaction failed. Not enough funds. Sender client id: " + senderClientId + " account id: " + senderAccountId + " account balance: " + senderAccount.getBalance() + ". Tried to send + " + amount + '\n');
-                            }
+        for (Account senderAccount : senderClient.getAccounts()) {
+            if (senderAccount.getAccountId().equals(senderAccountId)) {
+                if (senderAccount.getBalance() > amount) {
+                    for (Account receiverAccount : receiverClient.getAccounts()) {
+                        if (receiverAccount.getAccountId().equals(receiverAccountId)) {
+                            ExchangeFundsTransaction transaction = new ExchangeFundsTransaction(amount, senderAccount, receiverAccount);
+                            transaction.executeTransaction();
+                            transactions.put(transaction.getDate(), transaction);
+                            System.out.println("Succesfully executed exchange funds transaction. Sender client id: " + senderClientId + " account id: " + senderAccountId + " account balance: " + senderAccount.getBalance() + ". Receiver client id: " + receiverClientId + " account id: " + receiverAccountId + " account balance: " + receiverAccount.getBalance() + '\n');
+                            break;
+                        } else {
+                            System.out.println("Exchange funds transaction failed. Not enough funds. Sender client id: " + senderClientId + " account id: " + senderAccountId + " account balance: " + senderAccount.getBalance() + ". Tried to send + " + amount + '\n');
                         }
                     }
+                }
             }
         }
         auditService.writeActionToAudit("exchange money between accounts");
@@ -247,8 +245,8 @@ public class MainService {
         System.out.println("\n--ACCOUNT STATEMENT--\n");
 
         Client client = clients.get(clientId);
-        for(Account account: client.getAccounts()){
-            if(account.getAccountId().equals(accountId)) {
+        for (Account account : client.getAccounts()) {
+            if (account.getAccountId().equals(accountId)) {
                 AccountStatement statement = new AccountStatement(account);
                 System.out.println(statement);
             }
@@ -290,24 +288,21 @@ public class MainService {
         System.out.println("Amount: ");
         double amount = Double.parseDouble(scanner.next());
         Client client = clients.get(clientId);
-        for(Card card: client.getCards()) {
-            if(card.getCardId().equals(cardId)) {
-                for(Account account: client.getAccounts()) {
-                    if(account.getAccountId().equals(card.getAcoountId())) {
-                        if (card instanceof DebitCard && account.getBalance() >= amount)
-                        {
+        for (Card card : client.getCards()) {
+            if (card.getCardId().equals(cardId)) {
+                for (Account account : client.getAccounts()) {
+                    if (account.getAccountId().equals(card.getAcoountId())) {
+                        if (card instanceof DebitCard && account.getBalance() >= amount) {
                             Transaction transaction = new RetrieveFundsTransaction(amount, account);
                             transaction.executeTransaction();
                             transactions.put(transaction.getDate(), transaction);
                             System.out.println("Succesfully executed transaction. Current account balance: " + account.getBalance() + '\n');
                             break;
-                        }
-                        else if (card instanceof CreditCard && ((CreditCard) card).getaccumulatedDebt() + amount <= ((CreditCard) card).getCreditLimit()) {
+                        } else if (card instanceof CreditCard && ((CreditCard) card).getaccumulatedDebt() + amount <= ((CreditCard) card).getCreditLimit()) {
                             double accumulatedDebt = ((CreditCard) card).getaccumulatedDebt();
                             ((CreditCard) card).setaccumulatedDebt(accumulatedDebt + amount);
                             System.out.println("Succesfully executed transaction. Credit card spendings: " + ((CreditCard) card).getaccumulatedDebt() + '\n');
-                        }
-                        else {
+                        } else {
                             System.out.println("Transaction failed. Not enough funds.\n");
                         }
 

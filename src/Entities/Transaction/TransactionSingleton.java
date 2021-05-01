@@ -3,7 +3,10 @@ package Entities.Transaction;
 import Entities.Account.Account;
 import Entities.Client.Client;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -54,7 +57,7 @@ public class TransactionSingleton {
                                 Transaction transaction = new AddFundsTransaction(Double.parseDouble(amount), account);
                                 transaction.executeTransaction();
                                 transactions.add(transaction);
-                                System.out.println("Succesfully executed add funds transaction." + "Client id: " + clientId + " account id: " + accountId +  " account balance: " + account.getBalance() + '\n');
+                                System.out.println("Succesfully executed add funds transaction." + "Client id: " + clientId + " account id: " + accountId + " account balance: " + account.getBalance() + '\n');
                                 try {
                                     TimeUnit.MILLISECONDS.sleep(1);
                                 } catch (InterruptedException e) {
@@ -70,11 +73,11 @@ public class TransactionSingleton {
                         ArrayList<Account> clientAccounts = client.getAccounts();
                         for (Account account : clientAccounts) {
                             if (account.getAccountId().equals(accountId)) {
-                                if(account.getBalance() >= Double.parseDouble(amount)) {
+                                if (account.getBalance() >= Double.parseDouble(amount)) {
                                     Transaction transaction = new RetrieveFundsTransaction(Double.parseDouble(amount), account);
                                     transaction.executeTransaction();
                                     transactions.add(transaction);
-                                    System.out.println("Succesfully executed retrieve funds transaction." + "Client id: " + clientId + " account id: " + accountId +  " account balance: " + account.getBalance() + '\n');
+                                    System.out.println("Succesfully executed retrieve funds transaction." + "Client id: " + clientId + " account id: " + accountId + " account balance: " + account.getBalance() + '\n');
                                     try {
                                         TimeUnit.MILLISECONDS.sleep(1);
                                     } catch (InterruptedException e) {
@@ -82,8 +85,7 @@ public class TransactionSingleton {
                                     }
 
                                     break;
-                                }
-                                else {
+                                } else {
                                     System.out.println("Retrieve funds transaction failed. Not enough funds. Client id: " + clientId + " account id: " + accountId + " current account balance: " + account.getBalance() + ". Tried to send + " + amount + '\n');
                                     break;
                                 }
@@ -101,7 +103,7 @@ public class TransactionSingleton {
                         ArrayList<Account> clientAccounts = client.getAccounts();
                         for (Account account : clientAccounts) {
                             if (account.getAccountId().equals(accountId)) {
-                                if(account.getBalance() >= Double.parseDouble(amount)) {
+                                if (account.getBalance() >= Double.parseDouble(amount)) {
                                     ArrayList<Account> receiverClientAccounts = receiverClient.getAccounts();
                                     for (Account receiverAccount : receiverClientAccounts) {
                                         if (receiverAccount.getAccountId().equals(receiverAccountId)) {
@@ -118,8 +120,7 @@ public class TransactionSingleton {
                                         }
                                         break;
                                     }
-                                }
-                                else {
+                                } else {
                                     System.out.println("Exhange funds transaction failed. Not enough funds. Sender client id: " + clientId + " account id: " + accountId + " account balance:" + account.getBalance() + ". Tried to send + " + amount + '\n');
                                     break;
                                 }
@@ -134,8 +135,8 @@ public class TransactionSingleton {
     }
 
     public void writeCSVFile(ArrayList<Transaction> csvTransactions, String filePath) {
-        try(FileWriter writer = new FileWriter(filePath)){
-            for(Transaction csvTransaction : csvTransactions){
+        try (FileWriter writer = new FileWriter(filePath)) {
+            for (Transaction csvTransaction : csvTransactions) {
                 writer.write(csvTransaction.toCSV());
                 writer.write("\n");
             }

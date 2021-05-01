@@ -63,9 +63,10 @@ public abstract class Card {
         this.expirationDate = expirationDate;
     }
 
-    abstract public @Override String toString();
+    abstract public @Override
+    String toString();
 
-    abstract  public String toCSV();
+    abstract public String toCSV();
 
 }
 

@@ -1,6 +1,9 @@
 package Entities.Card;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -36,7 +39,7 @@ public class CardSingleton {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        for(List<String> line:lines) {
+        for (List<String> line : lines) {
             Card card = null;
             String clientId = line.get(0);
             String accountId = line.get(1);
@@ -45,16 +48,14 @@ public class CardSingleton {
 
             if (cards.containsKey(clientId)) {
                 currentCards = cards.get(clientId);
-            }
-            else {
+            } else {
                 currentCards = new ArrayList<>();
             }
 
-            if(line.size() == 4) {
-            // debit card
+            if (line.size() == 4) {
+                // debit card
                 card = new DebitCard(accountId, number, Integer.valueOf(cvv));
-            }
-            else if(line.size() == 7) {
+            } else if (line.size() == 7) {
                 // credit card
                 String creditLimit = line.get(4);
                 String interest = line.get(5);
@@ -67,8 +68,8 @@ public class CardSingleton {
     }
 
     public void writeCSVFile(ArrayList<Card> csvCards, String filePath) {
-        try(FileWriter writer = new FileWriter(filePath)){
-            for(Card csvCard : csvCards){
+        try (FileWriter writer = new FileWriter(filePath)) {
+            for (Card csvCard : csvCards) {
                 writer.write(csvCard.toCSV());
                 writer.write("\n");
             }

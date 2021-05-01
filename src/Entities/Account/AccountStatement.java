@@ -30,10 +30,11 @@ public class AccountStatement {
         this.date = date;
     }
 
-    public @Override String toString() {
+    public @Override
+    String toString() {
         String output = "";
         ArrayList<Transaction> transactions = account.getTransactions();
-        for(Transaction transaction: transactions) {
+        for (Transaction transaction : transactions) {
             output = output + transaction + "\n\n";
         }
 

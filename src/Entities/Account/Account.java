@@ -60,7 +60,8 @@ public class Account {
         transactions.add(transaction);
     }
 
-    public @Override String toString() {
+    public @Override
+    String toString() {
         return "Account Id: " + accountId + "\nDate of creation: " + dateOfCreation + "\nBalance: " + balance;
     }
 

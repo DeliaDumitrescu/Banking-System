@@ -23,7 +23,8 @@ public class RetrieveFundsTransaction extends Transaction {
         account.retrieve(amount, this);
     }
 
-    public @Override String toString() {
+    public @Override
+    String toString() {
         return "Date: " + date + "\nRetrieved amount: " + amount + "\nFrom account with id: " + account.getAccountId();
     }
 

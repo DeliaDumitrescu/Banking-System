@@ -9,9 +9,9 @@ public class AuditService {
     private FileWriter writer;
 
     public AuditService() {
-        try{
+        try {
             this.writer = new FileWriter("data/write/audit.csv");
-        }catch (IOException e){
+        } catch (IOException e) {
             System.out.println(e.toString());
         }
     }

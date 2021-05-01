@@ -1,6 +1,9 @@
 package Entities.Account;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -36,15 +39,14 @@ public class AccountSingleton {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        for(List<String> line:lines) {
+        for (List<String> line : lines) {
             String clientId = line.get(0);
             String accountId;
             if (accounts.containsKey(clientId)) {
                 currentAccounts = accounts.get(clientId);
                 int nr = currentAccounts.size() + 1;
                 accountId = clientId + '.' + nr;
-            }
-            else {
+            } else {
                 currentAccounts = new ArrayList<>();
                 accountId = clientId + ".1";
             }
@@ -56,8 +58,8 @@ public class AccountSingleton {
     }
 
     public void writeCSVFile(ArrayList<Account> csvAccounts, String filePath) {
-        try(FileWriter writer = new FileWriter(filePath)){
-            for(Account csvAccount : csvAccounts){
+        try (FileWriter writer = new FileWriter(filePath)) {
+            for (Account csvAccount : csvAccounts) {
                 writer.write(csvAccount.toCSV());
                 writer.write("\n");
             }
