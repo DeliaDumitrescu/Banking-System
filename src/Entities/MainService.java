@@ -11,8 +11,6 @@ import Entities.Client.Client;
 import Entities.Client.ClientSingleton;
 import Entities.Transaction.*;
 
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.*;
 
@@ -39,75 +37,6 @@ public class MainService {
         auditService = new AuditService();
         databaseService = DatabaseService.getInstance();
     }
-
-    public void readResources(String table) throws SQLException{
-        ResultSet resultSet = databaseService.executeQuery("SELECT * FROM " + table);
-        ResultSetMetaData rsmd = resultSet.getMetaData();
-        int noColumns = rsmd.getColumnCount();
-        while (resultSet.next()) {
-            for (int i = 1; i <= noColumns; i++) {
-                if (i > 1) {
-                    System.out.print(",  ");
-                }
-                String value = resultSet.getString(i);
-                System.out.print(rsmd.getColumnName(i) + ": " + value);
-            }
-            System.out.println("");
-        }
-    }
-
-    public void editResource(String table, HashMap<String, String> fields, String primaryKey) throws SQLException {
-        String primaryKeyName;
-        switch(table) {
-            case "Client":
-                primaryKeyName = "clientId";
-                break;
-            case "Card":
-                primaryKeyName = "cardId";
-                break;
-            case "Account":
-                primaryKeyName = "accountId";
-                break;
-            case "Transaction":
-                primaryKeyName = "transactionId";
-                break;
-            default:
-                System.out.println("No such table.");
-                return;
-        }
-        String query = "update " + table + " set";
-        for(String fieldName: fields.keySet()) {
-            query = query + " " + fieldName + " = " + fields.get(fieldName) + ',';
-        }
-        query = query.substring(0, query.length() - 1);
-        query = query + " where " + primaryKeyName + " = " + primaryKey;
-        databaseService.executeUpdate(query);
-    }
-
-    public void deleteResource(String table, String primaryKey) throws SQLException {
-        String primaryKeyName;
-        switch(table) {
-            case "Client":
-                primaryKeyName = "clientId";
-                break;
-            case "Card":
-                primaryKeyName = "cardId";
-                break;
-            case "Account":
-                primaryKeyName = "accountId";
-                break;
-            case "Transaction":
-                primaryKeyName = "transactionId";
-                break;
-            default:
-                System.out.println("No such table.");
-                return;
-        }
-        String query =  "delete from " + table + " where " + primaryKeyName +  " = " + primaryKey;
-        System.out.println(query);
-        databaseService.executeUpdate(query);
-    }
-
 
     // Load CSV files
     public void parseCSVFiles() {
@@ -458,25 +387,15 @@ public class MainService {
         auditService.writeActionToAudit("pay by card");
     }
 
-    // option 13: Delete Element
-    public void deleteFromTable() throws SQLException {
-        System.out.println("Deleting resource. Please enter: \n");
-        System.out.println("Table: ");
-        String table = scanner.next();
-        System.out.println("Primary key value: ");
-        String primaryKey = scanner.next();
-        deleteResource(table, primaryKey);
-    }
-
-    // option 14: Read ELements
+    // option 13: Read ELements
     public void readFromTable() throws SQLException {
         System.out.println("Reading resources. Please enter: \n");
         System.out.println("Table: ");
         String table = scanner.next();
-        readResources(table);
+        databaseService.readResources(table);
     }
 
-    // option 15: Edit Element
+    // option 14: Edit Element
     public void editFromTable() throws SQLException {
         System.out.println("Deleting resource. Please enter: \n");
         System.out.println("Table: ");
@@ -491,8 +410,17 @@ public class MainService {
         for(int i = 0; i < splited.length; i = i + 2) {
             fields.put(splited[i], splited[i+1]);
         }
-        editResource(table, fields, primaryKey);
+        databaseService.editResource(table, fields, primaryKey);
     }
 
+    // option 15: Delete Element
+    public void deleteFromTable() throws SQLException {
+        System.out.println("Deleting resource. Please enter: \n");
+        System.out.println("Table: ");
+        String table = scanner.next();
+        System.out.println("Primary key value: ");
+        String primaryKey = scanner.next();
+        databaseService.deleteResource(table, primaryKey);
+    }
 
 }

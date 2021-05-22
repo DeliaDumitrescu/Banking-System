@@ -7,31 +7,27 @@ import java.sql.*;
 public class Main {
     public static void main(String[] args) throws IOException, SQLException {
         MainService service = new MainService();
+        
+        service.addClient();
+        service.openAccount();
+        service.addMoneyToAccount();
+        service.retrieveMoneyFromAccount();
+
+        service.addClient();
+        service.openAccount();
+        service.exchangeMoneyBetweenAccounts();
+
+        service.openClientCard();
+
+        service.readFromTable();
+        service.readFromTable();
+        service.readFromTable();
+        service.readFromTable();
+
         service.editFromTable();
-//        service.addClient();
-//        service.readFromTable();
-//        service.openAccount();
-//        service.openClientCard();
-//        service.addClient();
+        service.readFromTable();
 
-//        service.openAccount();
-//        service.addMoneyToAccount();
-//        service.retrieveMoneyFromAccount();
-//        service.exchangeMoneyBetweenAccounts();
-        //        service.openClientCard();
-
-//        service.parseCSVFiles();
-//        service.openClientCard();
-//        service.addMoneyToAccount();
-//        service.payByCard();
-//        service.retrieveMoneyFromAccount();
-//        service.getAccountStatement();
-//        service.getAllTransactions();
-//        service.writeCSVFiles();
-
-//        String DB_URL = "jdbc:mysql://localhost:3306/BankingSystem";
-//        String USER = "root";
-//        String password = "";
-//        Connection conn = DriverManager.getConnection(DB_URL,USER, password);
+        service.deleteFromTable();
+        service.readFromTable();
     }
 }
