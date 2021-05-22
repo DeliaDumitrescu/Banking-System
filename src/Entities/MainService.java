@@ -11,6 +11,8 @@ import Entities.Client.Client;
 import Entities.Client.ClientSingleton;
 import Entities.Transaction.*;
 
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.*;
 
@@ -38,6 +40,22 @@ public class MainService {
         databaseService = DatabaseService.getInstance();
     }
 
+    public void readResources(String table) throws SQLException{
+        ResultSet resultSet = databaseService.executeQuery("SELECT * FROM " + table);
+        ResultSetMetaData rsmd = resultSet.getMetaData();
+        int noColumns = rsmd.getColumnCount();
+        while (resultSet.next()) {
+            for (int i = 1; i <= noColumns; i++) {
+                if (i > 1) {
+                    System.out.print(",  ");
+                }
+                String value = resultSet.getString(i);
+                System.out.print(rsmd.getColumnName(i) + ": " + value);
+            }
+            System.out.println("");
+        }
+    }
+
     public void deleteResource(String table, String primaryKey) throws SQLException {
         String primaryKeyName;
         switch(table) {
@@ -61,6 +79,7 @@ public class MainService {
         System.out.println(query);
         databaseService.executeUpdate(query);
     }
+
 
     // Load CSV files
     public void parseCSVFiles() {
@@ -412,12 +431,21 @@ public class MainService {
     }
 
     // option 13: Delete Element
-    public void delete() throws SQLException {
+    public void deleteFromTable() throws SQLException {
+        System.out.println("Deleting resouce. Please enter: \n");
         System.out.println("Table: ");
         String table = scanner.next();
         System.out.println("Primary key value: ");
         String primaryKey = scanner.next();
         deleteResource(table, primaryKey);
+    }
+
+    // option 14: Read ELements
+    public void readFromTable() throws SQLException {
+        System.out.println("Reading resources. Please enter: \n");
+        System.out.println("Table: ");
+        String table = scanner.next();
+        readResources(table);
     }
 
 
