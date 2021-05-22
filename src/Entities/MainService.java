@@ -115,9 +115,8 @@ public class MainService {
 
         name = "'" + name + "'";
         nationalId = "'" + nationalId + "'";
-        clientId = "'" + clientId + "'";
         phoneNumber = "'" + phoneNumber + "'";
-        String query = "insert into Client values (" + clientId + ", " + nationalId + ", " + name + ", " + phoneNumber + ")";
+        String query = "insert into Client (nationalId, name, phoneNumber) values (" + nationalId + ", " + name + ", " + phoneNumber + ")";
         databaseService.executeUpdate(query);
     }
 
@@ -149,12 +148,11 @@ public class MainService {
             }
 
         }
-        accountId = "'" + accountId + "'";
         String creationDate = "'" + clientAccount.getDateOfCreation() + "'";
         String balance = String.valueOf(clientAccount.getBalance());
         clientId = "'" + clientId + "'";
 
-        String query = "insert into Account values (" + accountId + ", " + creationDate + ", " + balance + ", " + clientId + ")";
+        String query = "insert into Account (creationDate, balance, clientId) values (" + creationDate + ", " + balance + ", " + clientId + ")";
         databaseService.executeUpdate(query);
     }
 
@@ -335,7 +333,6 @@ public class MainService {
                 clientCard = card;
             }
         }
-        cardId = "'" + cardId + "'";
         clientId = "'" + clientId + "'";
         String accountId = "'" +  clientCard.getAcoountId() + "'";
         String number = "'" + clientCard.getNumber() + "'";
@@ -349,7 +346,7 @@ public class MainService {
             interest = String.valueOf(((CreditCard) clientCard).getInterest());
             accumulatedDebt = String.valueOf(((CreditCard) clientCard).getaccumulatedDebt());
         }
-        String query = "insert into Card values (" + cardId + ", " + accountId + ", " + number + ", " + CVV + ", " + expirationDate + ", " + creditLimit + ", " + interest + ", " + accumulatedDebt + ", " + clientId +  ")";
+        String query = "insert into Card (accountId, number, CVV, expirationDate, creditLimit, interest, accumulatedDebt, clientId) values (" + accountId + ", " + number + ", " + CVV + ", " + expirationDate + ", " + creditLimit + ", " + interest + ", " + accumulatedDebt + ", " + clientId +  ")";
         databaseService.executeUpdate(query);
     }
 

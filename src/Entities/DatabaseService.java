@@ -12,13 +12,13 @@ public class DatabaseService {
     private DatabaseService() throws SQLException {
         connection = DriverManager.getConnection(url, user, password);
         Statement statement = connection.createStatement();
-        statement.executeUpdate("truncate Card");
-        statement = connection.createStatement();
-        statement.executeUpdate("truncate Client");
-        statement = connection.createStatement();
-        statement.executeUpdate("truncate Account");
-        statement = connection.createStatement();
-        statement.executeUpdate("truncate Transaction");
+//        statement.executeUpdate("truncate Card");
+//        statement = connection.createStatement();
+//        statement.executeUpdate("truncate Client");
+//        statement = connection.createStatement();
+//        statement.executeUpdate("truncate Account");
+//        statement = connection.createStatement();
+//        statement.executeUpdate("truncate Transaction");
     }
 
     public static DatabaseService getInstance() throws SQLException {

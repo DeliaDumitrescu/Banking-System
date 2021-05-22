@@ -8,12 +8,14 @@ public class Main {
     public static void main(String[] args) throws IOException, SQLException {
         MainService service = new MainService();
         service.addClient();
-        service.addClient();
         service.openAccount();
-        service.openAccount();
-        service.addMoneyToAccount();
-        service.retrieveMoneyFromAccount();
-        service.exchangeMoneyBetweenAccounts();
+        service.openClientCard();
+//        service.addClient();
+
+//        service.openAccount();
+//        service.addMoneyToAccount();
+//        service.retrieveMoneyFromAccount();
+//        service.exchangeMoneyBetweenAccounts();
         //        service.openClientCard();
 
 //        service.parseCSVFiles();

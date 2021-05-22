@@ -1,7 +1,3 @@
-add client,2021-05-22 14:53:07.191
-add client,2021-05-22 14:53:10.425
-open account,2021-05-22 14:53:13.572
-open account,2021-05-22 14:53:15.629
-add money to account,2021-05-22 14:53:19.744
-retrieve money from account,2021-05-22 14:53:27.200
-exchange money between accounts,2021-05-22 14:53:37.966
+add client,2021-05-22 15:25:56.392
+open account,2021-05-22 15:25:57.044
+open client card,2021-05-22 15:26:06.252
