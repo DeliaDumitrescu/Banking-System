@@ -38,6 +38,30 @@ public class MainService {
         databaseService = DatabaseService.getInstance();
     }
 
+    public void deleteResource(String table, String primaryKey) throws SQLException {
+        String primaryKeyName;
+        switch(table) {
+            case "Client":
+                primaryKeyName = "clientId";
+                break;
+            case "Card":
+                primaryKeyName = "cardId";
+                break;
+            case "Account":
+                primaryKeyName = "accountId";
+                break;
+            case "Transaction":
+                primaryKeyName = "transactionId";
+                break;
+            default:
+                System.out.println("No such table.");
+                return;
+        }
+        String query =  "delete from " + table + " where " + primaryKeyName +  " = " + primaryKey;
+        System.out.println(query);
+        databaseService.executeUpdate(query);
+    }
+
     // Load CSV files
     public void parseCSVFiles() {
         clientSingleton.parseCSVFile("data/read/clients.csv");
@@ -386,5 +410,15 @@ public class MainService {
         }
         auditService.writeActionToAudit("pay by card");
     }
+
+    // option 13: Delete Element
+    public void delete() throws SQLException {
+        System.out.println("Table: ");
+        String table = scanner.next();
+        System.out.println("Primary key value: ");
+        String primaryKey = scanner.next();
+        deleteResource(table, primaryKey);
+    }
+
 
 }
