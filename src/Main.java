@@ -7,8 +7,9 @@ import java.sql.*;
 public class Main {
     public static void main(String[] args) throws IOException, SQLException {
         MainService service = new MainService();
+        service.editFromTable();
 //        service.addClient();
-        service.readFromTable();
+//        service.readFromTable();
 //        service.openAccount();
 //        service.openClientCard();
 //        service.addClient();

@@ -56,6 +56,34 @@ public class MainService {
         }
     }
 
+    public void editResource(String table, HashMap<String, String> fields, String primaryKey) throws SQLException {
+        String primaryKeyName;
+        switch(table) {
+            case "Client":
+                primaryKeyName = "clientId";
+                break;
+            case "Card":
+                primaryKeyName = "cardId";
+                break;
+            case "Account":
+                primaryKeyName = "accountId";
+                break;
+            case "Transaction":
+                primaryKeyName = "transactionId";
+                break;
+            default:
+                System.out.println("No such table.");
+                return;
+        }
+        String query = "update " + table + " set";
+        for(String fieldName: fields.keySet()) {
+            query = query + " " + fieldName + " = " + fields.get(fieldName) + ',';
+        }
+        query = query.substring(0, query.length() - 1);
+        query = query + " where " + primaryKeyName + " = " + primaryKey;
+        databaseService.executeUpdate(query);
+    }
+
     public void deleteResource(String table, String primaryKey) throws SQLException {
         String primaryKeyName;
         switch(table) {
@@ -432,7 +460,7 @@ public class MainService {
 
     // option 13: Delete Element
     public void deleteFromTable() throws SQLException {
-        System.out.println("Deleting resouce. Please enter: \n");
+        System.out.println("Deleting resource. Please enter: \n");
         System.out.println("Table: ");
         String table = scanner.next();
         System.out.println("Primary key value: ");
@@ -446,6 +474,24 @@ public class MainService {
         System.out.println("Table: ");
         String table = scanner.next();
         readResources(table);
+    }
+
+    // option 15: Edit Element
+    public void editFromTable() throws SQLException {
+        System.out.println("Deleting resource. Please enter: \n");
+        System.out.println("Table: ");
+        String table = scanner.next();
+        System.out.println("Primary key value: ");
+        String primaryKey = scanner.next();
+        System.out.println("Fields to edit separated by space. (Example: name Andreea clientId 2");
+        scanner.nextLine();
+        String line = scanner.nextLine();
+        String[] splited = line.split("\\s+");
+        HashMap<String, String> fields = new HashMap<>();
+        for(int i = 0; i < splited.length; i = i + 2) {
+            fields.put(splited[i], splited[i+1]);
+        }
+        editResource(table, fields, primaryKey);
     }
 
 
