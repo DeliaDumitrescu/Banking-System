@@ -11,6 +11,7 @@ import Entities.Client.Client;
 import Entities.Client.ClientSingleton;
 import Entities.Transaction.*;
 
+import java.sql.SQLException;
 import java.util.*;
 
 
@@ -23,8 +24,9 @@ public class MainService {
     CardSingleton cardSingleton;
     TransactionSingleton transactionSingleton;
     AuditService auditService;
+    DatabaseService databaseService;
 
-    public MainService() {
+    public MainService() throws SQLException {
         clients = new HashMap<>();
         transactions = new HashMap<>();
         scanner = new Scanner(System.in);
@@ -33,6 +35,7 @@ public class MainService {
         cardSingleton = CardSingleton.getInstance();
         transactionSingleton = TransactionSingleton.getInstance();
         auditService = new AuditService();
+        databaseService = DatabaseService.getInstance();
     }
 
     // Load CSV files
@@ -95,7 +98,7 @@ public class MainService {
 
     // option 1: Add a new client
 
-    public void addClient() {
+    public void addClient() throws SQLException {
         System.out.println("Adding new client. Please enter following client info: ");
         System.out.println("Name: ");
         String name = scanner.next();
@@ -109,6 +112,13 @@ public class MainService {
         clients.put(clientId, newClient);
         System.out.println("Successfully added client " + name + " with id " + newClient.getClientId() + '\n');
         auditService.writeActionToAudit("add client");
+
+        name = "'" + name + "'";
+        nationalId = "'" + nationalId + "'";
+        clientId = "'" + clientId + "'";
+        phoneNumber = "'" + phoneNumber + "'";
+        String query = "insert into Client values (" + clientId + ", " + nationalId + ", " + name + ", " + phoneNumber + ")";
+        databaseService.executeUpdate(query);
     }
 
     // option 2: Show clients info
@@ -124,13 +134,28 @@ public class MainService {
 
     //option 3: Open account for client
 
-    public void openAccount() {
+    public void openAccount() throws SQLException {
         System.out.println("Opening account. Please enter client's id: ");
         String clientId = scanner.next();
         Client client = clients.get(clientId);
         String accountId = client.openAccount();
         System.out.println("Successfully opened account with id: " + accountId + '\n');
         auditService.writeActionToAudit("open account");
+
+        Account clientAccount = null;
+        for(Account account: client.getAccounts()) {
+            if(account.getAccountId().equals(accountId)){
+                clientAccount = account;
+            }
+
+        }
+        accountId = "'" + accountId + "'";
+        String creationDate = "'" + clientAccount.getDateOfCreation() + "'";
+        String balance = String.valueOf(clientAccount.getBalance());
+        clientId = "'" + clientId + "'";
+
+        String query = "insert into Account values (" + accountId + ", " + creationDate + ", " + balance + ", " + clientId + ")";
+        databaseService.executeUpdate(query);
     }
 
     // option 4: Show client's accounts
@@ -146,7 +171,8 @@ public class MainService {
 
     //option 5: Create transaction to retrieve money
 
-    public void retrieveMoneyFromAccount() {
+    public void retrieveMoneyFromAccount() throws SQLException {
+        RetrieveFundsTransaction transaction = null;
         System.out.println("Retrieving money from account. Please enter following info: ");
         System.out.println("Client id: ");
         String clientId = scanner.next();
@@ -159,7 +185,7 @@ public class MainService {
         for (Account account : client.getAccounts()) {
             if (account.getAccountId().equals(accountId)) {
                 if (account.getBalance() > amount) {
-                    RetrieveFundsTransaction transaction = new RetrieveFundsTransaction(amount, account);
+                    transaction = new RetrieveFundsTransaction(amount, account);
                     transaction.executeTransaction();
                     transactions.put(transaction.getDate(), transaction);
                     System.out.println("Succesfully executed retrieve funds transaction." + "Client id: " + clientId + "account id: " + accountId + " account balance: " + account.getBalance() + '\n');
@@ -170,11 +196,20 @@ public class MainService {
             }
         }
         auditService.writeActionToAudit("retrieve money from account");
+
+        String transactionId = "null";
+        String date = "'" + transaction.getDate() + "'";
+        String _amount = String.valueOf(amount);
+        accountId = "'" + accountId + "'";
+
+        String query = "insert into Transaction (date, amount, accountId) values (" +  date + ", " + amount + ", " + accountId + ")";
+        databaseService.executeUpdate(query);
     }
 
     //option 6: Create transaction to add money
 
-    public void addMoneyToAccount() {
+    public void addMoneyToAccount() throws SQLException {
+        AddFundsTransaction transaction = null;
         System.out.println("Adding money to account. Please enter following info: ");
         System.out.println("Client id: ");
         String clientId = scanner.next();
@@ -186,7 +221,7 @@ public class MainService {
         Client client = clients.get(clientId);
         for (Account account : client.getAccounts()) {
             if (account.getAccountId().equals(accountId)) {
-                AddFundsTransaction transaction = new AddFundsTransaction(amount, account);
+                transaction = new AddFundsTransaction(amount, account);
                 transaction.executeTransaction();
                 transactions.put(transaction.getDate(), transaction);
                 System.out.println("Succesfully executed add funds transaction." + "Client id: " + clientId + "account id: " + accountId + " account balance: " + account.getBalance() + '\n');
@@ -194,11 +229,20 @@ public class MainService {
             }
         }
         auditService.writeActionToAudit("add money to account");
+
+        String transactionId = "null";
+        String date = "'" + transaction.getDate() + "'";
+        String _amount = String.valueOf(amount);
+        accountId = "'" + accountId + "'";
+
+        String query = "insert into Transaction (date, amount, accountId) values (" +  date + ", " + amount + ", " + accountId + ")";
+        databaseService.executeUpdate(query);
     }
 
     //option 7: Create transaction to send money from one account to another
 
-    public void exchangeMoneyBetweenAccounts() {
+    public void exchangeMoneyBetweenAccounts() throws SQLException {
+        ExchangeFundsTransaction transaction = null;
         System.out.println("Exchanging money between accounts. Please enter following info: ");
         System.out.println("Sender client id: ");
         String senderClientId = scanner.next();
@@ -219,7 +263,7 @@ public class MainService {
                 if (senderAccount.getBalance() > amount) {
                     for (Account receiverAccount : receiverClient.getAccounts()) {
                         if (receiverAccount.getAccountId().equals(receiverAccountId)) {
-                            ExchangeFundsTransaction transaction = new ExchangeFundsTransaction(amount, senderAccount, receiverAccount);
+                            transaction = new ExchangeFundsTransaction(amount, senderAccount, receiverAccount);
                             transaction.executeTransaction();
                             transactions.put(transaction.getDate(), transaction);
                             System.out.println("Succesfully executed exchange funds transaction. Sender client id: " + senderClientId + " account id: " + senderAccountId + " account balance: " + senderAccount.getBalance() + ". Receiver client id: " + receiverClientId + " account id: " + receiverAccountId + " account balance: " + receiverAccount.getBalance() + '\n');
@@ -232,6 +276,15 @@ public class MainService {
             }
         }
         auditService.writeActionToAudit("exchange money between accounts");
+
+        String transactionId = "null";
+        String date = "'" + transaction.getDate() + "'";
+        String _amount = String.valueOf(amount);
+        senderAccountId = "'" + senderAccountId + "'";
+        receiverAccountId = "'" + receiverAccountId + "'";
+
+        String query = "insert into Transaction (date, amount, senderAccountId, receiverAccountId) values (" +  date + ", " + amount + ", " + senderAccountId + "," + receiverAccountId + ")";
+        databaseService.executeUpdate(query);
     }
 
     //option 9: Get account statement
@@ -267,7 +320,7 @@ public class MainService {
 
     //option 11: Open card
 
-    public void openClientCard() {
+    public void openClientCard() throws SQLException {
         System.out.println("Opening card. Please enter following info: ");
         System.out.println("Client id: ");
         String clientId = scanner.next();
@@ -275,6 +328,29 @@ public class MainService {
         String cardId = client.openCard();
         System.out.println("Successfully opened card with id " + cardId + '\n');
         auditService.writeActionToAudit("open client card");
+
+        Card clientCard = null;
+        for(Card card: client.getCards()) {
+            if(card.getCardId().equals(cardId)) {
+                clientCard = card;
+            }
+        }
+        cardId = "'" + cardId + "'";
+        clientId = "'" + clientId + "'";
+        String accountId = "'" +  clientCard.getAcoountId() + "'";
+        String number = "'" + clientCard.getNumber() + "'";
+        String CVV = "'" + clientCard.getCvv() + "'";
+        String expirationDate = "'" + clientCard.getExpirationDate() + "'";
+        String creditLimit = "null";
+        String interest = "null";
+        String accumulatedDebt = "null";
+        if (clientCard instanceof CreditCard) {
+            creditLimit = String.valueOf(((CreditCard) clientCard).getCreditLimit());
+            interest = String.valueOf(((CreditCard) clientCard).getInterest());
+            accumulatedDebt = String.valueOf(((CreditCard) clientCard).getaccumulatedDebt());
+        }
+        String query = "insert into Card values (" + cardId + ", " + accountId + ", " + number + ", " + CVV + ", " + expirationDate + ", " + creditLimit + ", " + interest + ", " + accumulatedDebt + ", " + clientId +  ")";
+        databaseService.executeUpdate(query);
     }
 
     //option 12: Pay by card

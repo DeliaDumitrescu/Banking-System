@@ -1,6 +1,7 @@
-open client card,2021-05-01 10:52:15.283
-add money to account,2021-05-01 10:52:19.455
-pay by card,2021-05-01 10:52:22.597
-retrieve money from account,2021-05-01 10:52:25.491
-get account statement,2021-05-01 10:52:27.829
-get all transactions,2021-05-01 10:52:27.831
+add client,2021-05-22 14:53:07.191
+add client,2021-05-22 14:53:10.425
+open account,2021-05-22 14:53:13.572
+open account,2021-05-22 14:53:15.629
+add money to account,2021-05-22 14:53:19.744
+retrieve money from account,2021-05-22 14:53:27.200
+exchange money between accounts,2021-05-22 14:53:37.966
