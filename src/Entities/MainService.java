@@ -389,7 +389,7 @@ public class MainService {
 
     // option 13: Read ELements
     public void readFromTable() throws SQLException {
-        System.out.println("Reading resources. Please enter: \n");
+        System.out.println("\nReading resources. Please enter: \n");
         System.out.println("Table: ");
         String table = scanner.next();
         databaseService.readResources(table);
@@ -397,7 +397,7 @@ public class MainService {
 
     // option 14: Edit Element
     public void editFromTable() throws SQLException {
-        System.out.println("Deleting resource. Please enter: \n");
+        System.out.println("\nEditing resource. Please enter: \n");
         System.out.println("Table: ");
         String table = scanner.next();
         System.out.println("Primary key value: ");
@@ -415,7 +415,7 @@ public class MainService {
 
     // option 15: Delete Element
     public void deleteFromTable() throws SQLException {
-        System.out.println("Deleting resource. Please enter: \n");
+        System.out.println("\nDeleting resource. Please enter: \n");
         System.out.println("Table: ");
         String table = scanner.next();
         System.out.println("Primary key value: ");
