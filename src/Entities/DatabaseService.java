@@ -1,6 +1,9 @@
 package  Entities;
 
+import Entities.Client.Client;
+
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class DatabaseService {
@@ -33,7 +36,7 @@ public class DatabaseService {
     }
 
     public void readResources(String table) throws SQLException{
-        ResultSet resultSet = executeQuery("SELECT * FROM " + table);
+        ResultSet resultSet = executeQuery("select * from " + table);
         ResultSetMetaData rsmd = resultSet.getMetaData();
         int noColumns = rsmd.getColumnCount();
         while (resultSet.next()) {
@@ -46,6 +49,22 @@ public class DatabaseService {
             }
             System.out.println("");
         }
+    }
+
+    public ArrayList<Client> readClients() throws SQLException {
+        ArrayList<Client> clients = new ArrayList<>();
+        ResultSet resultSet = executeQuery("select * from Client");
+        ResultSetMetaData rsmd = resultSet.getMetaData();
+        int noColumns = rsmd.getColumnCount();
+        while (resultSet.next()) {
+            ArrayList<String> params = new ArrayList<>();
+            for (int i = 1; i <= noColumns; i++) {
+                String value = resultSet.getString(i);
+                params.add(value);
+            }
+            clients.add(new Client(params.get(0), params.get(1), params.get(2), params.get(3)));
+        }
+        return clients;
     }
 
     public void editResource(String table, HashMap<String, String> fields, String primaryKey) throws SQLException {

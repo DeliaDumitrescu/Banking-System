@@ -96,6 +96,14 @@ public class MainService {
 
     }
 
+    //
+    public void parseDB() throws SQLException {
+        ArrayList<Client> dbClients = databaseService.readClients();
+        for(Client dbClient: dbClients) {
+            clients.put(dbClient.getClientId(), dbClient);
+        }
+    }
+
     // option 1: Add a new client
 
     public void addClient() throws SQLException {
@@ -148,6 +156,7 @@ public class MainService {
             }
 
         }
+        assert clientAccount != null;
         String creationDate = "'" + clientAccount.getDateOfCreation() + "'";
         String balance = String.valueOf(clientAccount.getBalance());
         clientId = "'" + clientId + "'";
